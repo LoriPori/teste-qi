@@ -728,7 +728,35 @@
      JAVASCRIPT
 ═══════════════════════════════════════════ -->
 <script>
+// ── SUPABASE CONFIG ─────────────────────────
+// A chave anon é segura para o frontend — só permite acesso segundo as Row Level Security policies.
+// NOTA DE SEGURANÇA: A chave de analista abaixo (ANALYST_KEY) está visível no código fonte do browser.
+// Para a ocultar verdadeiramente, seria necessário um servidor backend (ex: Supabase Edge Function).
+// Por enquanto, mantém-se no frontend conforme solicitado.
+const SUPABASE_URL = 'https://heoyejsjgnlujialduiw.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhlb3llanNqZ25sdWppYWxkdWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDk4MjIsImV4cCI6MjA5MzU4NTgyMn0.H91FmH4iVGdex_0_62cprXyO7J0GQsCug5luJ4Ks9rU';
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || '',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
 // ── STATE ──────────────────────────────────
+const ANALYST_KEY = 'LourençoX7X82X11';
 let currentRole = 'visitor';
 let participant = {};
 let answers = [];
@@ -737,37 +765,7 @@ let timer = null;
 let timeLeft = 0;
 let startTime = null;
 let totalTime = 0;
-let records = [];
-const SUPABASE_URL = 'https://heoyejsjgnlujialduiw.supabase.co'; // Replace with your URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhlb3llanNqZ25sdWppYWxkdWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDk4MjIsImV4cCI6MjA5MzU4NTgyMn0.H91FmH4iVGdex_0_62cprXyO7J0GQsCug5luJ4Ks9rU'; // Replace with your Anon key
-
-async function loadRecords() {
-  try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/records?select=*`,
-      { headers: { 'apikey': SUPABASE_ANON_KEY } }
-    );
-    records = await response.json();
-    renderDashboard();
-  } catch (e) {
-    console.error('Error loading records:', e);
-  }
-}
-
-async function saveRecord(record) {
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/records`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(record)
-    });
-  } catch (e) {
-    console.error('Error saving record:', e);
-  }
-}
+let records = []; // agora carregado do Supabase
 let selectedOption = null;
 
 // ── QUESTIONS ──────────────────────────────
@@ -890,27 +888,16 @@ function selectRole(role) {
   document.getElementById('analyst-key-wrap').style.display = role === 'analyst' ? 'block' : 'none';
 }
 
-async function handleLogin() {
+function handleLogin() {
   const err = document.getElementById('login-error');
   err.style.display = 'none';
   if (currentRole === 'analyst') {
     const key = document.getElementById('analyst-key').value.trim();
-    
-    // Call your Edge Function instead of checking locally
-    const response = await fetch('https://heoyejsjgnlujialduiw.supabase.co/functions/v1/validate-key', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key })
-    });
-    
-    const { valid } = await response.json();
-    if (!valid) {
+    if (key !== ANALYST_KEY) {
       err.textContent = 'Chave inválida. Tente novamente.';
       err.style.display = 'block';
       return;
     }
-    
-    await loadRecords();
     renderDashboard();
     showPage('page-analyst');
   } else {
@@ -1079,18 +1066,26 @@ async function finishTest() {
   const { iq, correct, total, avgTime, catScores, catMax } = calcScore();
   const cat = iqCategory(iq);
 
-  // Save record
+  // Save record to Supabase
   const record = {
-    id: Date.now(),
-    ...participant,
-    iq, correct, total, avgTime,
-    catScores, catMax,
-    category: cat.label,
-    badge: cat.badge,
-    date: new Date().toISOString()
+    nome: participant.nome,
+    apelido: participant.apelido,
+    idade: participant.idade,
+    genero: participant.genero,
+    escolaridade: participant.escolaridade,
+    iq, categoria: cat.label,
+    acertos: correct, total, tempo_medio: parseFloat(avgTime.toFixed(2)),
+    cat_scores: catScores, cat_max: catMax
   };
-  await saveRecord(record);
-  records.push(record);
+  try {
+    await sbFetch('resultados', {
+      method: 'POST',
+      prefer: 'return=minimal',
+      body: JSON.stringify(record)
+    });
+  } catch(e) {
+    console.error('Erro ao guardar no Supabase:', e);
+  }
 
   // Show result (no raw IQ visible context — just classification + IQ)
   document.getElementById('result-iq-display').textContent = iq;
@@ -1124,22 +1119,34 @@ async function finishTest() {
 }
 
 // ── DASHBOARD ───────────────────────────────
-function renderDashboard() {
+async function renderDashboard() {
+  // Load all records from Supabase
+  try {
+    records = await sbFetch('resultados?select=*&order=created_at.desc');
+    if (!records) records = [];
+  } catch(e) {
+    console.error('Erro ao carregar registos:', e);
+    records = [];
+  }
+  renderTable();
+}
+
+function renderTable() {
   const tbody = document.getElementById('records-tbody');
   const search = (document.getElementById('search-input')?.value || '').toLowerCase();
   const sort = document.getElementById('sort-select')?.value || 'date-desc';
 
   let filtered = records.filter(r =>
-    r.nome.toLowerCase().includes(search) ||
-    r.apelido.toLowerCase().includes(search) ||
+    (r.nome || '').toLowerCase().includes(search) ||
+    (r.apelido || '').toLowerCase().includes(search) ||
     String(r.idade).includes(search)
   );
 
   filtered.sort((a, b) => {
     if (sort === 'iq-desc') return b.iq - a.iq;
     if (sort === 'iq-asc') return a.iq - b.iq;
-    if (sort === 'name') return a.nome.localeCompare(b.nome);
-    return new Date(b.date) - new Date(a.date);
+    if (sort === 'name') return (a.nome || '').localeCompare(b.nome || '');
+    return new Date(b.created_at) - new Date(a.created_at);
   });
 
   // Stats
@@ -1158,7 +1165,7 @@ function renderDashboard() {
   } else {
     tbody.innerHTML = filtered.map((r, i) => {
       const cat = iqCategory(r.iq);
-      const d = new Date(r.date);
+      const d = new Date(r.created_at);
       const dateStr = d.toLocaleDateString('pt-PT') + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
       return `<tr>
         <td style="color:var(--text-muted);">${i + 1}</td>
@@ -1169,9 +1176,9 @@ function renderDashboard() {
         <td style="font-size:0.8rem;">${r.escolaridade}</td>
         <td style="font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--amber);">${r.iq}</td>
         <td><span class="badge ${cat.badge}">${cat.label}</span></td>
-        <td>${r.correct}/${r.total}</td>
+        <td>${r.acertos}/${r.total}</td>
         <td style="font-size:0.78rem; color:var(--text-muted);">${dateStr}</td>
-        <td><button class="btn btn-ghost btn-sm" onclick='openModal(${JSON.stringify(r)})'>Ver</button></td>
+        <td><button class="btn btn-ghost btn-sm" onclick='openModal(${JSON.stringify(r).replace(/'/g,"&apos;")})'>Ver</button></td>
       </tr>`;
     }).join('');
   }
@@ -1179,8 +1186,6 @@ function renderDashboard() {
   // Distribution chart
   renderDistChart();
 }
-
-function renderTable() { renderDashboard(); }
 
 function renderDistChart() {
   const ranges = [
@@ -1209,8 +1214,8 @@ function renderDistChart() {
 function openModal(r) {
   const cat = iqCategory(r.iq);
   document.getElementById('modal-name').textContent = `${r.nome} ${r.apelido}`;
-  const breakdown = r.catScores ? Object.entries(r.catScores).map(([c, s]) => {
-    const pct = Math.round((s / (r.catMax[c] || 1)) * 100);
+  const breakdown = r.cat_scores ? Object.entries(r.cat_scores).map(([c, s]) => {
+    const pct = Math.round((s / ((r.cat_max || {})[c] || 1)) * 100);
     return `<div style="margin-bottom:0.4rem;">
       <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.15rem;">
         <span style="color:var(--brown); font-weight:600;">${c}</span><span style="color:var(--text-muted);">${pct}%</span>
@@ -1228,9 +1233,9 @@ function openModal(r) {
     <div class="detail-row"><span class="detail-key">Idade:</span><span class="detail-val">${r.idade} anos</span></div>
     <div class="detail-row"><span class="detail-key">Género:</span><span class="detail-val">${r.genero}</span></div>
     <div class="detail-row"><span class="detail-key">Escolaridade:</span><span class="detail-val">${r.escolaridade}</span></div>
-    <div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">${r.correct}/${r.total}</span></div>
-    <div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">${r.avgTime?.toFixed(1)}s / pergunta</span></div>
-    <div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">${new Date(r.date).toLocaleString('pt-PT')}</span></div>
+    <div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">${r.acertos}/${r.total}</span></div>
+    <div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">${r.tempo_medio?.toFixed(1)}s / pergunta</span></div>
+    <div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">${new Date(r.created_at).toLocaleString('pt-PT')}</span></div>
     <div class="divider"></div>
     <div style="font-size:0.78rem; font-weight:600; color:var(--brown); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">Desempenho por área</div>
     ${breakdown}`;
@@ -1247,8 +1252,8 @@ function exportCSV() {
   const headers = ['ID','Nome','Apelido','Idade','Género','Escolaridade','QI','Classificação','Acertos','Total','Tempo Médio (s)','Data'];
   const rows = records.map(r => [
     r.id, r.nome, r.apelido, r.idade, r.genero, r.escolaridade,
-    r.iq, iqCategory(r.iq).label, r.correct, r.total,
-    r.avgTime?.toFixed(2), new Date(r.date).toLocaleString('pt-PT')
+    r.iq, r.categoria, r.acertos, r.total,
+    r.tempo_medio?.toFixed(2), new Date(r.created_at).toLocaleString('pt-PT')
   ]);
   const csv = [headers, ...rows].map(r => r.join(';')).join('\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1266,8 +1271,6 @@ function confirmLogout() {
 document.getElementById('modal-detail').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
-// Load records when page starts
-loadRecords();
 </script>
 </body>
 </html>
