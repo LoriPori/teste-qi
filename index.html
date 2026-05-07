@@ -728,11 +728,9 @@
      JAVASCRIPT
 ═══════════════════════════════════════════ -->
 <script>
-// ── SUPABASE CONFIG ─────────────────────────
-// A chave anon é segura para o frontend — só permite acesso segundo as Row Level Security policies.
-// NOTA DE SEGURANÇA: A chave de analista abaixo (ANALYST_KEY) está visível no código fonte do browser.
-// Para a ocultar verdadeiramente, seria necessário um servidor backend (ex: Supabase Edge Function).
-// Por enquanto, mantém-se no frontend conforme solicitado.
+// ══════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════════════════════════
 const SUPABASE_URL = 'https://heoyejsjgnlujialduiw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhlb3llanNqZ25sdWppYWxkdWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDk4MjIsImV4cCI6MjA5MzU4NTgyMn0.H91FmH4iVGdex_0_62cprXyO7J0GQsCug5luJ4Ks9rU';
 
@@ -749,29 +747,41 @@ async function sbFetch(path, options = {}) {
   });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(err);
+    throw new Error('Supabase error: ' + err);
   }
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
 
-// ── STATE ──────────────────────────────────
+// ══════════════════════════════════════════════════
+// ANALYST KEY (visível no frontend — ver nota)
+// NOTA: Para ocultar verdadeiramente, usaria Supabase Edge Function
+// ══════════════════════════════════════════════════
 const ANALYST_KEY = 'LourençoX7X82X11';
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
 let currentRole = 'visitor';
 let participant = {};
+let activeQuestions = [];
 let answers = [];
 let currentQ = 0;
 let timer = null;
 let timeLeft = 0;
 let startTime = null;
 let totalTime = 0;
-let records = []; // agora carregado do Supabase
+let records = [];
 let selectedOption = null;
+const CIRCUMFERENCE = 2 * Math.PI * 30;
 
-// ── QUESTIONS ──────────────────────────────
-// Each question: text, options (a-d), correct (index 0-3), category, difficulty (1-3), timeLimit
-const QUESTIONS = [
-  // LÓGICA
+// ══════════════════════════════════════════════════
+// QUESTION BANKS — por nível de escolaridade
+// difficulty: 1=fácil, 2=médio, 3=difícil
+// ══════════════════════════════════════════════════
+
+// NÍVEL: Ensino Básico (perguntas originais)
+const Q_BASICO = [
   { category: 'Raciocínio Lógico', difficulty: 1, timeLimit: 30,
     text: 'Se todos os cães são animais, e alguns animais são perigosos, então:',
     options: ['Todos os cães são perigosos', 'Alguns cães podem ser perigosos', 'Nenhum cão é perigoso', 'Todos os animais são cães'],
@@ -788,8 +798,6 @@ const QUESTIONS = [
     text: 'Três amigos (Ana, Bruno, Carlos) têm 20, 22 e 25 anos. Ana não é a mais nova. Carlos não é o mais velho. Quem tem 22 anos?',
     options: ['Ana', 'Bruno', 'Carlos', 'Impossível determinar'],
     correct: 0 },
-
-  // PADRÕES VISUAIS
   { category: 'Padrões & Sequências', difficulty: 1, timeLimit: 25,
     text: 'Qual o número que falta? 1, 4, 9, 16, ___',
     options: ['20', '25', '24', '36'],
@@ -802,8 +810,6 @@ const QUESTIONS = [
     text: 'Qual o número que falta? 3, 7, 15, 31, ___',
     options: ['47', '55', '63', '59'],
     correct: 2 },
-
-  // MATEMÁTICA
   { category: 'Raciocínio Numérico', difficulty: 1, timeLimit: 25,
     text: 'Se um produto custa €80 e tem 25% de desconto, qual é o preço final?',
     options: ['€55', '€60', '€65', '€70'],
@@ -820,8 +826,6 @@ const QUESTIONS = [
     text: 'Qual é a área de um triângulo com base 12 cm e altura 9 cm?',
     options: ['54 cm²', '108 cm²', '48 cm²', '36 cm²'],
     correct: 0 },
-
-  // LINGUAGEM
   { category: 'Aptidão Verbal', difficulty: 1, timeLimit: 25,
     text: '"Plácido" é sinónimo de:',
     options: ['Agitado', 'Tranquilo', 'Ruidoso', 'Nervoso'],
@@ -835,16 +839,9 @@ const QUESTIONS = [
     options: ['Rápido', 'Passageiro', 'Duradouro', 'Transitório'],
     correct: 2 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 35,
-    text: 'Qual a frase grammaticalmente correta?',
-    options: [
-      'Haviam muitas pessoas no evento.',
-      'Havia muitas pessoas no evento.',
-      'Haveria muitas pessoas no evento.',
-      'Houveram muitas pessoas no evento.'
-    ],
+    text: 'Qual a frase gramaticalmente correta?',
+    options: ['Haviam muitas pessoas no evento.', 'Havia muitas pessoas no evento.', 'Haveria muitas pessoas no evento.', 'Houveram muitas pessoas no evento.'],
     correct: 1 },
-
-  // MEMÓRIA / ATENÇÃO
   { category: 'Atenção & Memória', difficulty: 1, timeLimit: 20,
     text: 'Quantos números pares existem entre 1 e 10 (inclusive)?',
     options: ['3', '4', '5', '6'],
@@ -853,8 +850,6 @@ const QUESTIONS = [
     text: 'Numa sequência ABBA, BAAB, ABBA, qual vem a seguir?',
     options: ['ABBA', 'BAAB', 'AABB', 'BBAA'],
     correct: 1 },
-
-  // RACIOCÍNIO ESPACIAL
   { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 35,
     text: 'Um cubo tem 6 faces. Quantas arestas tem?',
     options: ['8', '10', '12', '14'],
@@ -863,24 +858,381 @@ const QUESTIONS = [
     text: 'Se rodar a letra "d" 180° no eixo horizontal, que letra obtém?',
     options: ['b', 'p', 'q', 'd'],
     correct: 1 },
-
-  // RACIOCÍNIO ABSTRATO
   { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 40,
     text: 'Qual dos números completa a série: 1, 1, 2, 3, 5, 8, ___?',
     options: ['11', '12', '13', '14'],
     correct: 2 },
 ];
 
-const TOTAL_Q = QUESTIONS.length;
-const CIRCUMFERENCE = 2 * Math.PI * 30; // r=30
+// NÍVEL: Ensino Secundário
+const Q_SECUNDARIO = [
+  { category: 'Raciocínio Lógico', difficulty: 1, timeLimit: 30,
+    text: 'Todos os mamíferos respiram ar. A baleia é um mamífero. Logo:',
+    options: ['A baleia não respira ar', 'A baleia respira ar', 'Alguns mamíferos não respiram ar', 'A baleia é um peixe'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
+    text: 'Numa sala estão 30 alunos. 18 gostam de matemática, 15 gostam de história, e 8 gostam de ambas. Quantos não gostam de nenhuma?',
+    options: ['3', '4', '5', '7'],
+    correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
+    text: 'Se P implica Q, e Q implica R, qual das seguintes é sempre verdadeira?',
+    options: ['R implica P', 'P implica R', 'Q implica P', 'R implica Q'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 45,
+    text: 'Quatro irmãos (A, B, C, D) vivem em andares diferentes (1 ao 4). A vive acima de C. B vive abaixo de D. C não vive no 1.º andar. Quem vive no 1.º?',
+    options: ['A', 'B', 'C', 'D'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 1, timeLimit: 30,
+    text: 'Qual é a derivada de f(x) = 3x² + 2x?',
+    options: ['6x', '6x + 2', '3x + 2', '6x²'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
+    text: 'Se log₂(x) = 5, qual é o valor de x?',
+    options: ['10', '25', '32', '64'],
+    correct: 2 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
+    text: 'Uma conta bancária com €500 a 4% de juro composto anual. Qual o saldo ao fim de 2 anos?',
+    options: ['€540', '€540,80', '€541,20', '€580'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 45,
+    text: 'Quantos números primos existem entre 10 e 30?',
+    options: ['4', '5', '6', '7'],
+    correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 2, timeLimit: 30,
+    text: 'Qual o termo geral da sucessão: 2, 5, 10, 17, 26, ...?',
+    options: ['n² + 1', 'n² + n', '2n + 1', '3n - 1'],
+    correct: 0 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 40,
+    text: 'Na sequência: 1, 3, 6, 10, 15, ___ qual é o próximo?',
+    options: ['18', '20', '21', '22'],
+    correct: 2 },
+  { category: 'Aptidão Verbal', difficulty: 1, timeLimit: 25,
+    text: '"Ubíquo" significa:',
+    options: ['Único', 'Presente em todo o lado', 'Raro', 'Invisível'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
+    text: 'Identifique o erro na frase: "Mediante a análise dos dados, os investigadores concluirão que havia uma correlação."',
+    options: ['Mediante', 'Concluirão (devia ser concluíram)', 'Havia', 'Correlação'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
+    text: 'Qual é a figura de estilo em: "O silêncio gritou mais alto que qualquer palavra"?',
+    options: ['Metáfora', 'Ironia', 'Oxímoro', 'Eufemismo'],
+    correct: 2 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 35,
+    text: '"Epistemologia" é o ramo da filosofia que estuda:',
+    options: ['A moral e a ética', 'O conhecimento e a sua origem', 'A beleza e a arte', 'A existência e o ser'],
+    correct: 1 },
+  { category: 'Atenção & Memória', difficulty: 2, timeLimit: 30,
+    text: 'Um dado é lançado duas vezes. Qual a probabilidade de obter dois números pares?',
+    options: ['1/2', '1/3', '1/4', '1/6'],
+    correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 2, timeLimit: 35,
+    text: 'Qual o valor de sen(90°) + cos(0°)?',
+    options: ['0', '1', '2', '√2'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 35,
+    text: 'Uma esfera tem raio 3 cm. Qual é o seu volume? (V = 4/3 π r³)',
+    options: ['9π cm³', '12π cm³', '36π cm³', '27π cm³'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 40,
+    text: 'Num plano cartesiano, a distância entre os pontos (1,2) e (4,6) é:',
+    options: ['3', '4', '5', '7'],
+    correct: 2 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
+    text: 'Se CASA → 3131 e BOLA → 2413, qual é o código de LOBO?',
+    options: ['4123', '4321', '4312', '3142'],
+    correct: 0 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 45,
+    text: 'Qual das afirmações é logicamente equivalente a "Se não chove, vou correr"?',
+    options: ['Se choveu, não fui correr', 'Se não fui correr, choveu', 'Se fui correr, não choveu', 'Se chove, não vou correr'],
+    correct: 1 },
+];
 
-// ── NAVIGATION ─────────────────────────────
+// NÍVEL: Licenciatura
+const Q_LICENCIATURA = [
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
+    text: 'Qual das seguintes afirmações é a negação de "Todos os corvos são pretos"?',
+    options: ['Nenhum corvo é preto', 'Alguns corvos são pretos', 'Existe pelo menos um corvo que não é preto', 'Todos os corvos são brancos'],
+    correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
+    text: 'P → Q é logicamente equivalente a:',
+    options: ['Q → P', '¬P → ¬Q', '¬Q → ¬P', 'P ∧ Q'],
+    correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
+    text: 'Num grupo de 100 pessoas: 60 falam inglês, 40 falam francês, 20 falam ambos. Quantas não falam nenhum?',
+    options: ['10', '20', '30', '40'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
+    text: 'Em qual sistema de lógica uma proposição pode ser verdadeira, falsa ou indeterminada?',
+    options: ['Lógica clássica', 'Lógica booleana', 'Lógica fuzzy / trivalente', 'Lógica modal'],
+    correct: 2 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 40,
+    text: 'Qual é o integral de f(x) = 2x + 3?',
+    options: ['x² + 3x', 'x² + 3x + C', '2x² + 3x + C', '2 + C'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 40,
+    text: 'A média de 5 números é 12. Retira-se um número e a nova média é 10. Qual o número retirado?',
+    options: ['18', '20', '22', '24'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 50,
+    text: 'Qual é o determinante da matriz [[2,3],[1,4]]?',
+    options: ['5', '8', '11', '14'],
+    correct: 0 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 50,
+    text: 'Quantas permutações distintas tem a palavra BANANA?',
+    options: ['60', '120', '360', '720'],
+    correct: 0 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 45,
+    text: 'Na sucessão definida por a(n) = a(n-1) + a(n-2), com a(1)=1 e a(2)=1, qual é a(8)?',
+    options: ['13', '21', '34', '55'],
+    correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 45,
+    text: 'Qual o próximo elemento: 2, 3, 5, 7, 11, 13, ___?',
+    options: ['15', '17', '19', '21'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
+    text: '"Tautologia" é uma proposição que:',
+    options: ['É sempre falsa', 'É sempre verdadeira independentemente dos valores', 'Contradiz outra proposição', 'Depende do contexto'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
+    text: '"Hermenêutica" refere-se à teoria de:',
+    options: ['Criação literária', 'Interpretação de textos', 'Estética visual', 'Retórica política'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 40,
+    text: 'Qual o conceito associado ao paradoxo de Russell na teoria dos conjuntos?',
+    options: ['Conjuntos bem ordenados', 'Um conjunto que se contém a si próprio', 'O axioma da escolha', 'A cardinalidade de conjuntos infinitos'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 40,
+    text: '"Dialética" no sentido hegeliano refere-se a:',
+    options: ['A arte da retórica', 'O processo tese-antítese-síntese', 'A lógica formal', 'O empirismo científico'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
+    text: 'Se f(x) = x² e g(x) = 2x + 1, qual é (f∘g)(3)?',
+    options: ['37', '49', '25', '13'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 50,
+    text: 'Qual é o número de subconjuntos de um conjunto com 4 elementos?',
+    options: ['8', '12', '16', '24'],
+    correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 2, timeLimit: 35,
+    text: 'Em estatística, o coeficiente de correlação de Pearson varia entre:',
+    options: ['0 e 1', '-1 e 0', '-1 e 1', '0 e ∞'],
+    correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 45,
+    text: 'Qual a probabilidade de tirar um ás de espadas de um baralho de 52 cartas?',
+    options: ['1/13', '1/26', '1/52', '4/52'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 40,
+    text: 'Em geometria diferencial, uma superfície com curvatura gaussiana = 0 é chamada:',
+    options: ['Esférica', 'Hiperbólica', 'Plana (euclidiana)', 'Parabólica'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 50,
+    text: 'Num espaço n-dimensional, quantos vértices tem um hipercubo?',
+    options: ['n²', '2n', '2^n', 'n!'],
+    correct: 2 },
+];
+
+// NÍVEL: Mestrado
+const Q_MESTRADO = [
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
+    text: 'O teorema da incompletude de Gödel afirma que:',
+    options: ['Todo sistema axiomático é completo', 'Qualquer sistema formal suficientemente expressivo contém proposições indecidíveis', 'A matemática é redutível à lógica', 'Os paradoxos podem ser eliminados com axiomas'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
+    text: 'Qual das propriedades NÃO é necessariamente válida numa relação de equivalência?',
+    options: ['Reflexividade', 'Simetria', 'Transitividade', 'Anti-simetria'],
+    correct: 3 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 55,
+    text: 'Na teoria da complexidade computacional, qual classe contém problemas verificáveis em tempo polinomial mas cuja solução pode não ser encontrada eficientemente?',
+    options: ['P', 'NP', 'PSPACE', 'EXP'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 45,
+    text: 'Qual é o valor de lim(x→0) de sen(x)/x?',
+    options: ['0', '∞', '1', 'Indefinido'],
+    correct: 2 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 55,
+    text: 'Qual é o integral ∫₀^π sen(x) dx?',
+    options: ['0', '1', '2', 'π'],
+    correct: 2 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 55,
+    text: 'A série de Taylor de e^x em torno de x=0 é:',
+    options: ['Σ xⁿ/n', 'Σ xⁿ/n!', 'Σ (-1)ⁿ xⁿ/n!', 'Σ xⁿ'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 60,
+    text: 'Qual é o número de grafos simples não-isomórficos com 4 vértices?',
+    options: ['8', '11', '16', '24'],
+    correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
+    text: 'A sequência de Catalan começa 1, 1, 2, 5, 14, 42... Qual é o 7.º termo?',
+    options: ['90', '120', '132', '165'],
+    correct: 2 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
+    text: 'Qual o número de regiões em que n retas em posição geral dividem o plano?',
+    options: ['n(n+1)/2', '1 + n(n+1)/2', 'n²', 'n! + 1'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
+    text: '"Abdução" no contexto da filosofia da ciência (Peirce) refere-se a:',
+    options: ['Dedução rigorosa a partir de axiomas', 'Inferência para a melhor explicação', 'Generalização por indução', 'Refutação por contraexemplo'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
+    text: 'O "problema difícil da consciência" (Chalmers) questiona:',
+    options: ['Como o cérebro processa informação', 'Por que razão existe experiência subjetiva para além da função neural', 'Se animais são conscientes', 'A localização da consciência no cérebro'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
+    text: '"Qualia" refere-se a:',
+    options: ['Propriedades quantitativas dos fenómenos', 'As qualidades subjetivas da experiência consciente', 'Atributos mensuráveis da matéria', 'A lógica das qualidades formais'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
+    text: 'Na álgebra linear, qual é a dimensão do espaço nulo (kernel) de uma matriz 3×5 com rank 2?',
+    options: ['1', '2', '3', '5'],
+    correct: 2 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
+    text: 'O teorema de Bayes afirma que P(A|B) =:',
+    options: ['P(B|A) · P(A)', 'P(B|A) · P(A) / P(B)', 'P(A) · P(B)', 'P(A ∩ B) / P(A)'],
+    correct: 1 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
+    text: 'O teste t de Student é adequado para comparar:',
+    options: ['Variâncias de mais de 2 grupos', 'Médias de duas amostras independentes ou emparelhadas', 'Correlações entre variáveis', 'Distribuições categóricas'],
+    correct: 1 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
+    text: 'Em aprendizagem automática, o "overfitting" é caracterizado por:',
+    options: ['Modelo com erro alto em treino e teste', 'Modelo que generaliza bem para novos dados', 'Modelo que memoriza os dados de treino mas falha em novos dados', 'Modelo com poucos parâmetros'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 45,
+    text: 'Na topologia, um toro (donut) tem genus:',
+    options: ['0', '1', '2', '3'],
+    correct: 1 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 55,
+    text: 'Qual das seguintes superfícies é não-orientável?',
+    options: ['Esfera', 'Toro', 'Faixa de Möbius', 'Cilindro'],
+    correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
+    text: 'O que distingue axioma de teorema?',
+    options: ['Axioma é demonstrado, teorema é assumido', 'Axioma é assumido como verdadeiro, teorema é deduzido a partir de axiomas', 'Ambos são demonstráveis', 'Teorema é mais fundamental que axioma'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 45,
+    text: 'Qual é o valor de i⁴ (sendo i a unidade imaginária)?',
+    options: ['-1', 'i', '-i', '1'],
+    correct: 3 },
+];
+
+// NÍVEL: Doutoramento
+const Q_DOUTORAMENTO = [
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
+    text: 'O teorema de Löwenheim-Skolem implica que:',
+    options: ['Toda teoria consistente tem um modelo finito', 'Uma teoria com modelo infinito tem modelos de qualquer cardinalidade infinita', 'Não existem modelos não-padrão da aritmética', 'A lógica de 2ª ordem é completa'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
+    text: 'O "problema da paragem" (halting problem) de Turing é:',
+    options: ['Decidível em tempo polinomial', 'Semidecidível mas não decidível', 'Completamente indecidível (nem semidecidível)', 'Decidível apenas para máquinas determinísticas'],
+    correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 65,
+    text: 'Na teoria da prova, o sistema de dedução natural de Gentzen caracteriza-se por:',
+    options: ['Usar apenas modus ponens', 'Introduzir e eliminar conectivos logicamente', 'Trabalhar exclusivamente com sequentes', 'Basear-se em axiomas em vez de regras de inferência'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 60,
+    text: 'A hipótese de Riemann afirma que todos os zeros não-triviais da função zeta de Riemann têm parte real igual a:',
+    options: ['0', '1', '1/2', '1/4'],
+    correct: 2 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
+    text: 'Qual é a dimensão de Hausdorff do conjunto de Cantor?',
+    options: ['0', 'log(2)/log(3)', '1/2', '1'],
+    correct: 1 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
+    text: 'O teorema de Noether (Emmy Noether, 1915) estabelece uma correspondência entre:',
+    options: ['Simetrias contínuas e leis de conservação', 'Grupos de Lie e álgebras de Lie', 'Equações diferenciais e grupos de simetria discreta', 'Transformadas de Fourier e grupos abelianos'],
+    correct: 0 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 60,
+    text: 'A função geradora da sequência de Fibonacci é:',
+    options: ['1/(1-x-x²)', 'x/(1-x-x²)', '1/(1+x+x²)', '1/(1-x²)'],
+    correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 60,
+    text: 'Qual das seguintes é uma consequência do axioma da escolha?',
+    options: ['O teorema de Cantor-Bernstein', 'O paradoxo de Banach-Tarski', 'O teorema de Gödel', 'O teorema de compacidade'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 50,
+    text: 'Na fenomenologia husserliana, "intencionalidade" significa:',
+    options: ['Intenção deliberada de agir', 'A consciência é sempre consciência de algo', 'A vontade precede a cognição', 'O sujeito cria a realidade'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 55,
+    text: 'O "argumento da linguagem privada" de Wittgenstein conclui que:',
+    options: ['É possível criar uma linguagem totalmente privada', 'Uma linguagem genuinamente privada é ininteligível', 'A linguagem é inata', 'Os conceitos mentais são independentes da linguagem'],
+    correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 55,
+    text: 'Na teoria dos jogos, um "equilíbrio de Nash" ocorre quando:',
+    options: ['Todos os jogadores cooperam', 'Nenhum jogador tem incentivo para mudar a estratégia unilateralmente', 'O resultado é Pareto-ótimo', 'Existe dominância estrita'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 65,
+    text: 'O teorema de Yoneda na teoria das categorias afirma que:',
+    options: ['Todo funtor tem um adjunto', 'Um objeto é determinado (a menos de isomorfismo) pelos morfismos que nele chegam', 'Categorias pequenas têm limites', 'Funtores naturais são sempre equivalências'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 65,
+    text: 'A "hipótese do contínuo" de Cantor afirma que:',
+    options: ['Não existem infinitos de tamanhos diferentes', 'Não há conjunto cuja cardinalidade esteja estritamente entre ℵ₀ e 2^ℵ₀', 'O contínuo real é enumerável', 'Todo conjunto infinito é equipotente a ℕ'],
+    correct: 1 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 55,
+    text: 'O teste de Kolmogorov-Smirnov é usado para:',
+    options: ['Comparar médias de dois grupos', 'Verificar se uma amostra segue uma distribuição específica', 'Medir correlação entre variáveis', 'Detetar outliers'],
+    correct: 1 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 60,
+    text: 'O "dilema do prisioneiro" iterado demonstra que:',
+    options: ['A defecção mútua é sempre optimal', 'A cooperação pode emergir de estratégias como Tit-for-Tat', 'Jogadores racionais cooperam sempre', 'O equilíbrio de Nash é Pareto-ótimo'],
+    correct: 1 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 60,
+    text: 'O invariante de Euler (V - E + F) para poliedros convexos é sempre:',
+    options: ['0', '1', '2', '3'],
+    correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 65,
+    text: 'Na geometria de Riemann, a soma dos ângulos internos de um triângulo é:',
+    options: ['Exatamente 180°', 'Sempre menor que 180°', 'Sempre maior que 180°', 'Independente da curvatura'],
+    correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
+    text: 'O que afirma o teorema de Arrow (impossibilidade)?',
+    options: ['Não existe sistema de votação perfeito que satisfaça todos os critérios razoáveis simultaneamente', 'A votação maioritária é sempre transitiva', 'Preferências individuais racionais geram preferências coletivas racionais', 'Sistemas de pontuação são superiores a sistemas de votação'],
+    correct: 0 },
+  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
+    text: 'Qual é a identidade de Euler?',
+    options: ['e^iπ = 1', 'e^iπ + 1 = 0', 'e^π = -1', 'i² = 1'],
+    correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 60,
+    text: 'Em teoria da informação (Shannon), a entropia H(X) = -Σ p(x) log p(x) mede:',
+    options: ['A energia de um sinal', 'A incerteza ou informação média de uma variável aleatória', 'A compressão máxima de um ficheiro', 'A correlação entre variáveis'],
+    correct: 1 },
+];
+
+// IQ scale params per education level
+// baseline: average student at this level scores ~IQ 100
+// The scale maps ratio 0-1 to IQ range
+const IQ_SCALE = {
+  'Ensino Básico':     { min: 60, range: 85 },   // 60-145
+  'Ensino Secundário': { min: 65, range: 80 },   // 65-145
+  'Licenciatura':      { min: 70, range: 75 },   // 70-145
+  'Mestrado':          { min: 75, range: 70 },   // 75-145
+  'Doutoramento':      { min: 80, range: 65 },   // 80-145
+};
+
+function getQuestionsForLevel(esc) {
+  switch(esc) {
+    case 'Ensino Básico': return Q_BASICO;
+    case 'Ensino Secundário': return Q_SECUNDARIO;
+    case 'Licenciatura': return Q_LICENCIATURA;
+    case 'Mestrado': return Q_MESTRADO;
+    case 'Doutoramento': return Q_DOUTORAMENTO;
+    default: return Q_BASICO;
+  }
+}
+
+// ══════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-// ── ROLE SELECTION ─────────────────────────
+// ══════════════════════════════════════════════════
+// ROLE SELECTION
+// ══════════════════════════════════════════════════
 function selectRole(role) {
   currentRole = role;
   document.getElementById('role-visitor').classList.toggle('selected', role === 'visitor');
@@ -905,7 +1257,9 @@ function handleLogin() {
   }
 }
 
-// ── TEST START ──────────────────────────────
+// ══════════════════════════════════════════════════
+// TEST START
+// ══════════════════════════════════════════════════
 function startTest() {
   const nome = document.getElementById('p-nome').value.trim();
   const apelido = document.getElementById('p-apelido').value.trim();
@@ -927,6 +1281,7 @@ function startTest() {
   }
 
   participant = { nome, apelido, idade: parseInt(idade), genero, escolaridade: esc };
+  activeQuestions = getQuestionsForLevel(esc);
   answers = [];
   currentQ = 0;
   totalTime = 0;
@@ -934,15 +1289,18 @@ function startTest() {
   loadQuestion();
 }
 
-// ── QUESTION LOGIC ──────────────────────────
+// ══════════════════════════════════════════════════
+// QUESTION LOGIC
+// ══════════════════════════════════════════════════
 function loadQuestion() {
-  if (currentQ >= TOTAL_Q) { finishTest(); return; }
+  if (currentQ >= activeQuestions.length) { finishTest(); return; }
   selectedOption = null;
-  const q = QUESTIONS[currentQ];
-  const progress = ((currentQ) / TOTAL_Q) * 100;
+  const q = activeQuestions[currentQ];
+  const total = activeQuestions.length;
+  const progress = (currentQ / total) * 100;
 
   document.getElementById('progress-fill').style.width = progress + '%';
-  document.getElementById('q-counter').textContent = `Pergunta ${currentQ + 1} de ${TOTAL_Q}`;
+  document.getElementById('q-counter').textContent = 'Pergunta ' + (currentQ + 1) + ' de ' + total;
   document.getElementById('q-section').textContent = q.category;
   document.getElementById('q-category').textContent = q.category;
   document.getElementById('q-text').textContent = q.text;
@@ -954,8 +1312,9 @@ function loadQuestion() {
   q.options.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option';
-    btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt}`;
-    btn.onclick = () => selectAnswer(i, btn);
+    btn.dataset.idx = i;
+    btn.innerHTML = '<span class="option-letter">' + letters[i] + '</span>' + opt;
+    btn.onclick = () => toggleAnswer(i, btn);
     container.appendChild(btn);
   });
 
@@ -964,13 +1323,22 @@ function loadQuestion() {
   startTime = Date.now();
 }
 
-function selectAnswer(idx, btn) {
-  if (selectedOption !== null) return;
-  selectedOption = idx;
-  document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  document.getElementById('next-btn').disabled = false;
-  document.getElementById('answered-hint').textContent = '✓ Resposta selecionada';
+// TOGGLE: selecionar / deselecionar opção
+function toggleAnswer(idx, btn) {
+  if (selectedOption === idx) {
+    // Deselect
+    selectedOption = null;
+    btn.classList.remove('selected');
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('answered-hint').textContent = '';
+  } else {
+    // Select new
+    selectedOption = idx;
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('next-btn').disabled = false;
+    document.getElementById('answered-hint').textContent = '✓ Resposta selecionada — pode clicar novamente para deselecionar';
+  }
 }
 
 function nextQuestion() {
@@ -978,13 +1346,15 @@ function nextQuestion() {
   clearInterval(timer);
   const elapsed = (Date.now() - startTime) / 1000;
   totalTime += elapsed;
-  const q = QUESTIONS[currentQ];
+  const q = activeQuestions[currentQ];
   answers.push({ questionIdx: currentQ, selected: selectedOption, correct: q.correct, time: elapsed });
   currentQ++;
   loadQuestion();
 }
 
-// ── TIMER ───────────────────────────────────
+// ══════════════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════════════
 function startTimer(seconds) {
   clearInterval(timer);
   timeLeft = seconds;
@@ -1009,9 +1379,9 @@ function updateTimerDisplay(left, total) {
 }
 
 function handleTimeout() {
-  const elapsed = QUESTIONS[currentQ].timeLimit;
+  const elapsed = activeQuestions[currentQ].timeLimit;
   totalTime += elapsed;
-  answers.push({ questionIdx: currentQ, selected: -1, correct: QUESTIONS[currentQ].correct, time: elapsed });
+  answers.push({ questionIdx: currentQ, selected: -1, correct: activeQuestions[currentQ].correct, time: elapsed });
   currentQ++;
   showPage('page-timeout');
 }
@@ -1021,7 +1391,9 @@ function timeoutNext() {
   loadQuestion();
 }
 
-// ── SCORING ─────────────────────────────────
+// ══════════════════════════════════════════════════
+// SCORING — adaptado ao nível de escolaridade
+// ══════════════════════════════════════════════════
 function calcScore() {
   let raw = 0;
   let maxRaw = 0;
@@ -1029,26 +1401,26 @@ function calcScore() {
   const catMax = {};
 
   answers.forEach(a => {
-    const q = QUESTIONS[a.questionIdx];
+    const q = activeQuestions[a.questionIdx];
+    if (!q) return;
     const pts = q.difficulty;
     maxRaw += pts;
     catMax[q.category] = (catMax[q.category] || 0) + pts;
     if (!catScores[q.category]) catScores[q.category] = 0;
     if (a.selected === a.correct) {
-      // Speed bonus: faster = slightly more pts
       const speedBonus = Math.max(0, 1 - a.time / (q.timeLimit * 1.5));
       raw += pts + speedBonus * 0.3;
       catScores[q.category] += pts;
     }
   });
 
-  const ratio = raw / maxRaw;
-  // Map to IQ scale (70–145)
-  const iq = Math.round(70 + ratio * 75);
+  const ratio = maxRaw > 0 ? raw / maxRaw : 0;
+  const scale = IQ_SCALE[participant.escolaridade] || IQ_SCALE['Ensino Básico'];
+  const iq = Math.round(scale.min + ratio * scale.range);
   const correct = answers.filter(a => a.selected === a.correct).length;
-  const avgTime = totalTime / TOTAL_Q;
+  const avgTime = answers.length > 0 ? totalTime / answers.length : 0;
 
-  return { iq, correct, total: TOTAL_Q, avgTime, catScores, catMax };
+  return { iq, correct, total: activeQuestions.length, avgTime, catScores, catMax };
 }
 
 function iqCategory(iq) {
@@ -1060,22 +1432,28 @@ function iqCategory(iq) {
   return { label: 'Abaixo da Média', emoji: '🔴', badge: 'badge-baixo', desc: 'Abaixo da média. Recomenda-se avaliação clínica profissional para um diagnóstico mais preciso.' };
 }
 
-// ── FINISH TEST ─────────────────────────────
+// ══════════════════════════════════════════════════
+// FINISH TEST
+// ══════════════════════════════════════════════════
 async function finishTest() {
   clearInterval(timer);
   const { iq, correct, total, avgTime, catScores, catMax } = calcScore();
   const cat = iqCategory(iq);
 
-  // Save record to Supabase
+  // Save to Supabase
   const record = {
     nome: participant.nome,
     apelido: participant.apelido,
     idade: participant.idade,
     genero: participant.genero,
     escolaridade: participant.escolaridade,
-    iq, categoria: cat.label,
-    acertos: correct, total, tempo_medio: parseFloat(avgTime.toFixed(2)),
-    cat_scores: catScores, cat_max: catMax
+    iq,
+    categoria: cat.label,
+    acertos: correct,
+    total,
+    tempo_medio: parseFloat(avgTime.toFixed(2)),
+    cat_scores: catScores,
+    cat_max: catMax
   };
   try {
     await sbFetch('resultados', {
@@ -1085,9 +1463,10 @@ async function finishTest() {
     });
   } catch(e) {
     console.error('Erro ao guardar no Supabase:', e);
+    // Show warning but continue to result page
   }
 
-  // Show result (no raw IQ visible context — just classification + IQ)
+  // Show result page
   document.getElementById('result-iq-display').textContent = iq;
   document.getElementById('result-emoji').textContent = cat.emoji;
   document.getElementById('result-cat').textContent = cat.label;
@@ -1099,33 +1478,37 @@ async function finishTest() {
   // Category breakdown bars
   const breakdown = document.getElementById('category-breakdown');
   breakdown.innerHTML = '';
-  Object.keys(catMax).forEach(cat => {
-    const score = catScores[cat] || 0;
-    const max = catMax[cat];
+  Object.keys(catMax).forEach(catName => {
+    const score = catScores[catName] || 0;
+    const max = catMax[catName];
     const pct = Math.round((score / max) * 100);
-    breakdown.innerHTML += `
-      <div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.2rem;">
-          <span style="color:var(--brown); font-weight:600;">${cat}</span>
-          <span style="color:var(--text-muted);">${pct}%</span>
-        </div>
-        <div class="progress-wrap" style="margin:0;">
-          <div class="progress-fill" style="width:${pct}%;"></div>
-        </div>
-      </div>`;
+    breakdown.innerHTML += '<div>' +
+      '<div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.2rem;">' +
+        '<span style="color:var(--brown); font-weight:600;">' + catName + '</span>' +
+        '<span style="color:var(--text-muted);">' + pct + '%</span>' +
+      '</div>' +
+      '<div class="progress-wrap" style="margin:0;">' +
+        '<div class="progress-fill" style="width:' + pct + '%;"></div>' +
+      '</div>' +
+    '</div>';
   });
 
   showPage('page-result');
 }
 
-// ── DASHBOARD ───────────────────────────────
+// ══════════════════════════════════════════════════
+// ANALYST DASHBOARD
+// ══════════════════════════════════════════════════
 async function renderDashboard() {
-  // Load all records from Supabase
+  const tbody = document.getElementById('records-tbody');
+  tbody.innerHTML = '<tr><td colspan="11" class="no-data">A carregar dados...</td></tr>';
+
   try {
     records = await sbFetch('resultados?select=*&order=created_at.desc');
     if (!records) records = [];
   } catch(e) {
     console.error('Erro ao carregar registos:', e);
+    tbody.innerHTML = '<tr><td colspan="11" class="no-data" style="color:var(--danger);">Erro ao ligar ao Supabase: ' + e.message + '</td></tr>';
     records = [];
   }
   renderTable();
@@ -1159,32 +1542,33 @@ function renderTable() {
   document.getElementById('ds-max').textContent = max ?? '—';
   document.getElementById('ds-min').textContent = min ?? '—';
 
-  // Table
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="11" class="no-data">Sem registos.</td></tr>`;
+    tbody.innerHTML = '<tr><td colspan="11" class="no-data">Sem registos.</td></tr>';
   } else {
     tbody.innerHTML = filtered.map((r, i) => {
       const cat = iqCategory(r.iq);
       const d = new Date(r.created_at);
       const dateStr = d.toLocaleDateString('pt-PT') + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
-      return `<tr>
-        <td style="color:var(--text-muted);">${i + 1}</td>
-        <td style="font-weight:600;">${r.nome}</td>
-        <td>${r.apelido}</td>
-        <td>${r.idade}</td>
-        <td>${r.genero}</td>
-        <td style="font-size:0.8rem;">${r.escolaridade}</td>
-        <td style="font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--amber);">${r.iq}</td>
-        <td><span class="badge ${cat.badge}">${cat.label}</span></td>
-        <td>${r.acertos}/${r.total}</td>
-        <td style="font-size:0.78rem; color:var(--text-muted);">${dateStr}</td>
-        <td><button class="btn btn-ghost btn-sm" onclick='openModal(${JSON.stringify(r).replace(/'/g,"&apos;")})'>Ver</button></td>
-      </tr>`;
+      const rJson = JSON.stringify(r).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      return '<tr>' +
+        '<td style="color:var(--text-muted);">' + (i+1) + '</td>' +
+        '<td style="font-weight:600;">' + r.nome + '</td>' +
+        '<td>' + r.apelido + '</td>' +
+        '<td>' + r.idade + '</td>' +
+        '<td>' + r.genero + '</td>' +
+        '<td style="font-size:0.8rem;">' + r.escolaridade + '</td>' +
+        '<td style="font-family:\'Playfair Display\',serif; font-size:1.2rem; font-weight:700; color:var(--amber);">' + r.iq + '</td>' +
+        '<td><span class="badge ' + cat.badge + '">' + cat.label + '</span></td>' +
+        '<td>' + r.acertos + '/' + r.total + '</td>' +
+        '<td style="font-size:0.78rem; color:var(--text-muted);">' + dateStr + '</td>' +
+        '<td><button class="btn btn-ghost btn-sm" onclick="openModal(' + i + ')">Ver</button></td>' +
+      '</tr>';
     }).join('');
   }
 
-  // Distribution chart
   renderDistChart();
+  // store filtered for modal access
+  window._filteredRecords = filtered;
 }
 
 function renderDistChart() {
@@ -1200,45 +1584,57 @@ function renderDistChart() {
   const maxC = Math.max(...counts, 1);
   const chart = document.getElementById('dist-chart');
   const labels = document.getElementById('dist-labels');
-  chart.innerHTML = counts.map((c, i) => {
+  chart.innerHTML = counts.map(c => {
     const h = Math.round((c / maxC) * 100);
-    return `<div class="chart-bar-wrap">
-      <div style="font-size:0.72rem; color:var(--text-muted); align-self:center;">${c}</div>
-      <div class="chart-bar" style="height:${h}px;"></div>
-    </div>`;
+    return '<div class="chart-bar-wrap">' +
+      '<div style="font-size:0.72rem; color:var(--text-muted); align-self:center;">' + c + '</div>' +
+      '<div class="chart-bar" style="height:' + h + 'px;"></div>' +
+    '</div>';
   }).join('');
-  labels.innerHTML = ranges.map(r => `<div style="flex:1; text-align:center; font-size:0.65rem; color:var(--text-muted);">${r.label}</div>`).join('');
+  labels.innerHTML = ranges.map(r =>
+    '<div style="flex:1; text-align:center; font-size:0.65rem; color:var(--text-muted);">' + r.label + '</div>'
+  ).join('');
 }
 
-// ── MODAL ────────────────────────────────────
-function openModal(r) {
+// ══════════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════════
+function openModal(idx) {
+  const r = (window._filteredRecords || records)[idx];
+  if (!r) return;
   const cat = iqCategory(r.iq);
-  document.getElementById('modal-name').textContent = `${r.nome} ${r.apelido}`;
-  const breakdown = r.cat_scores ? Object.entries(r.cat_scores).map(([c, s]) => {
-    const pct = Math.round((s / ((r.cat_max || {})[c] || 1)) * 100);
-    return `<div style="margin-bottom:0.4rem;">
-      <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.15rem;">
-        <span style="color:var(--brown); font-weight:600;">${c}</span><span style="color:var(--text-muted);">${pct}%</span>
-      </div>
-      <div class="progress-wrap" style="margin:0; height:6px;"><div class="progress-fill" style="width:${pct}%;"></div></div>
-    </div>`;
-  }).join('') : '';
+  document.getElementById('modal-name').textContent = r.nome + ' ' + r.apelido;
 
-  document.getElementById('modal-body').innerHTML = `
-    <div style="background:var(--amber-pale); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1rem;">
-      <div style="font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; color:var(--amber);">${r.iq}</div>
-      <div><span class="badge ${cat.badge}">${cat.label}</span></div>
-    </div>
-    <div class="detail-row"><span class="detail-key">Nome:</span><span class="detail-val">${r.nome} ${r.apelido}</span></div>
-    <div class="detail-row"><span class="detail-key">Idade:</span><span class="detail-val">${r.idade} anos</span></div>
-    <div class="detail-row"><span class="detail-key">Género:</span><span class="detail-val">${r.genero}</span></div>
-    <div class="detail-row"><span class="detail-key">Escolaridade:</span><span class="detail-val">${r.escolaridade}</span></div>
-    <div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">${r.acertos}/${r.total}</span></div>
-    <div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">${r.tempo_medio?.toFixed(1)}s / pergunta</span></div>
-    <div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">${new Date(r.created_at).toLocaleString('pt-PT')}</span></div>
-    <div class="divider"></div>
-    <div style="font-size:0.78rem; font-weight:600; color:var(--brown); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">Desempenho por área</div>
-    ${breakdown}`;
+  const catScores = r.cat_scores || {};
+  const catMax = r.cat_max || {};
+  const breakdown = Object.keys(catMax).map(c => {
+    const s = catScores[c] || 0;
+    const pct = Math.round((s / (catMax[c] || 1)) * 100);
+    return '<div style="margin-bottom:0.4rem;">' +
+      '<div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.15rem;">' +
+        '<span style="color:var(--brown); font-weight:600;">' + c + '</span>' +
+        '<span style="color:var(--text-muted);">' + pct + '%</span>' +
+      '</div>' +
+      '<div class="progress-wrap" style="margin:0; height:6px;"><div class="progress-fill" style="width:' + pct + '%;"></div></div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('modal-body').innerHTML =
+    '<div style="background:var(--amber-pale); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1rem;">' +
+      '<div style="font-family:\'Playfair Display\',serif; font-size:3rem; font-weight:900; color:var(--amber);">' + r.iq + '</div>' +
+      '<div><span class="badge ' + cat.badge + '">' + cat.label + '</span></div>' +
+    '</div>' +
+    '<div class="detail-row"><span class="detail-key">Nome:</span><span class="detail-val">' + r.nome + ' ' + r.apelido + '</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Idade:</span><span class="detail-val">' + r.idade + ' anos</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Género:</span><span class="detail-val">' + r.genero + '</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Escolaridade:</span><span class="detail-val">' + r.escolaridade + '</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">' + r.acertos + '/' + r.total + '</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">' + (r.tempo_medio || 0).toFixed(1) + 's / pergunta</span></div>' +
+    '<div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">' + new Date(r.created_at).toLocaleString('pt-PT') + '</span></div>' +
+    '<div class="divider"></div>' +
+    '<div style="font-size:0.78rem; font-weight:600; color:var(--brown); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">Desempenho por área</div>' +
+    breakdown;
+
   document.getElementById('modal-detail').classList.add('open');
 }
 
@@ -1246,14 +1642,16 @@ function closeModal() {
   document.getElementById('modal-detail').classList.remove('open');
 }
 
-// ── EXPORT CSV ───────────────────────────────
+// ══════════════════════════════════════════════════
+// EXPORT CSV
+// ══════════════════════════════════════════════════
 function exportCSV() {
   if (records.length === 0) { alert('Sem registos para exportar.'); return; }
   const headers = ['ID','Nome','Apelido','Idade','Género','Escolaridade','QI','Classificação','Acertos','Total','Tempo Médio (s)','Data'];
   const rows = records.map(r => [
     r.id, r.nome, r.apelido, r.idade, r.genero, r.escolaridade,
     r.iq, r.categoria, r.acertos, r.total,
-    r.tempo_medio?.toFixed(2), new Date(r.created_at).toLocaleString('pt-PT')
+    (r.tempo_medio || 0).toFixed(2), new Date(r.created_at).toLocaleString('pt-PT')
   ]);
   const csv = [headers, ...rows].map(r => r.join(';')).join('\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1267,7 +1665,7 @@ function confirmLogout() {
   if (confirm('Tem a certeza que quer sair?')) showPage('page-home');
 }
 
-// ── CLOSE MODAL ON OVERLAY CLICK ─────────────
+// Close modal on overlay click
 document.getElementById('modal-detail').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
