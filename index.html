@@ -37,7 +37,6 @@
     overflow-x: hidden;
   }
 
-  /* ─── BACKGROUND TEXTURE ─── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -48,39 +47,24 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* ─── PAGES ─── */
   .page { display: none; min-height: 100vh; position: relative; z-index: 1; }
   .page.active { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
 
-  /* ─── LOGO / BRANDING ─── */
   .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--brown-dark);
-    letter-spacing: -0.02em;
+    font-size: 2rem; font-weight: 900; color: var(--brown-dark); letter-spacing: -0.02em;
   }
   .logo span { color: var(--amber); }
 
   .tagline {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 500;
-    margin-top: 0.25rem;
+    font-size: 0.85rem; color: var(--text-muted); letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 500; margin-top: 0.25rem;
   }
 
-  /* ─── CARDS ─── */
   .card {
-    background: var(--warm-white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(201,169,122,0.3);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 480px;
-    animation: fadeUp 0.5s ease both;
+    background: var(--warm-white); border-radius: var(--radius);
+    box-shadow: var(--shadow-lg); border: 1px solid rgba(201,169,122,0.3);
+    padding: 2.5rem; width: 100%; max-width: 480px; animation: fadeUp 0.5s ease both;
   }
 
   @keyframes fadeUp {
@@ -89,265 +73,171 @@
   }
 
   .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--brown-dark);
-    margin-bottom: 0.4rem;
+    font-family: 'Playfair Display', serif; font-size: 1.6rem;
+    font-weight: 700; color: var(--brown-dark); margin-bottom: 0.4rem;
   }
-  .card-sub {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    line-height: 1.5;
-  }
+  .card-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5; }
 
-  /* ─── FORM ELEMENTS ─── */
   label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--brown);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.4rem;
+    display: block; font-size: 0.8rem; font-weight: 600; color: var(--brown);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;
+  }
+  .label-optional {
+    font-size: 0.7rem; font-weight: 400; color: var(--text-muted);
+    text-transform: none; letter-spacing: 0; margin-left: 0.35rem;
   }
   input, select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--sand);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--text);
-    background: var(--cream);
-    margin-bottom: 1.2rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
+    width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--sand);
+    border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    color: var(--text); background: var(--cream); margin-bottom: 1.2rem;
+    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
   }
   input:focus, select:focus {
-    border-color: var(--amber);
-    box-shadow: 0 0 0 3px rgba(217,119,6,0.12);
+    border-color: var(--amber); box-shadow: 0 0 0 3px rgba(217,119,6,0.12);
   }
   input::placeholder { color: var(--sand-dark); }
 
-  /* ─── BUTTONS ─── */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-    padding: 0.85rem 2rem;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-    text-decoration: none;
+    padding: 0.85rem 2rem; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--amber), var(--terracotta));
-    color: white;
-    width: 100%;
-    box-shadow: 0 4px 16px rgba(217,119,6,0.35);
+    color: white; width: 100%; box-shadow: 0 4px 16px rgba(217,119,6,0.35);
   }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(217,119,6,0.45);
-  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,6,0.45); }
   .btn-primary:active { transform: translateY(0); }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-muted);
-    border: 1.5px solid var(--sand);
-  }
+  .btn-ghost { background: transparent; color: var(--text-muted); border: 1.5px solid var(--sand); }
   .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
   .btn-sm { padding: 0.55rem 1.2rem; font-size: 0.85rem; }
 
-  /* ─── ROLE SELECTOR ─── */
   .role-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
   .role-card {
-    border: 2px solid var(--sand);
-    border-radius: 12px;
-    padding: 1.2rem 1rem;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    background: var(--cream);
+    border: 2px solid var(--sand); border-radius: 12px; padding: 1.2rem 1rem;
+    cursor: pointer; text-align: center; transition: all 0.2s; background: var(--cream);
   }
   .role-card:hover { border-color: var(--amber-light); }
   .role-card.selected { border-color: var(--amber); background: var(--amber-pale); }
   .role-card .icon { font-size: 2rem; margin-bottom: 0.4rem; }
   .role-card .label { font-size: 0.85rem; font-weight: 600; color: var(--brown); }
 
-  /* ─── PROGRESS BAR ─── */
   .progress-wrap {
-    width: 100%;
-    background: var(--sand);
-    border-radius: 100px;
-    height: 8px;
-    margin-bottom: 0.5rem;
-    overflow: hidden;
+    width: 100%; background: var(--sand); border-radius: 100px;
+    height: 8px; margin-bottom: 0.5rem; overflow: hidden;
   }
   .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--amber), var(--terracotta-light));
-    border-radius: 100px;
-    transition: width 0.5s ease;
+    height: 100%; background: linear-gradient(90deg, var(--amber), var(--terracotta-light));
+    border-radius: 100px; transition: width 0.5s ease;
   }
   .progress-label {
-    display: flex; justify-content: space-between;
-    font-size: 0.78rem; color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    display: flex; justify-content: space-between; font-size: 0.78rem;
+    color: var(--text-muted); margin-bottom: 1.5rem;
   }
 
-  /* ─── TIMER ─── */
-  .timer-ring {
-    position: relative;
-    width: 72px; height: 72px;
-    flex-shrink: 0;
-  }
+  .timer-ring { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
   .timer-ring svg { transform: rotate(-90deg); }
-  .timer-ring circle {
-    fill: none;
-    stroke-width: 5;
-    stroke-linecap: round;
-  }
+  .timer-ring circle { fill: none; stroke-width: 5; stroke-linecap: round; }
   .timer-bg { stroke: var(--sand); }
-  .timer-fg {
-    stroke: var(--amber);
-    stroke-dasharray: 188;
-    stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1s linear, stroke 0.3s;
-  }
+  .timer-fg { stroke: var(--amber); stroke-dasharray: 188; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.3s; }
   .timer-text {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; font-weight: 700;
-    color: var(--brown-dark);
-    font-family: 'Playfair Display', serif;
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700; color: var(--brown-dark); font-family: 'Playfair Display', serif;
   }
 
-  .question-header {
-    display: flex; align-items: center; gap: 1.2rem;
-    margin-bottom: 1.8rem;
-  }
+  .question-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.8rem; }
   .question-meta { flex: 1; }
   .question-category {
     font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
     letter-spacing: 0.12em; color: var(--amber); margin-bottom: 0.2rem;
   }
   .question-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem; font-weight: 700;
-    color: var(--brown-dark); line-height: 1.5;
+    font-family: 'Playfair Display', serif; font-size: 1.15rem;
+    font-weight: 700; color: var(--brown-dark); line-height: 1.5;
   }
 
-  /* ─── ANSWER OPTIONS ─── */
+  /* ── FIX 2: IMPROVED OPTION FEEDBACK ── */
   .options { display: grid; gap: 0.7rem; }
   .option {
     display: flex; align-items: center; gap: 0.8rem;
-    padding: 0.85rem 1.1rem;
-    border: 2px solid var(--sand);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--cream);
-    font-size: 0.92rem;
-    color: var(--text);
-    font-weight: 500;
-    text-align: left;
-    font-family: 'DM Sans', sans-serif;
+    padding: 0.85rem 1.1rem; border: 2px solid var(--sand);
+    border-radius: 10px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+    background: var(--cream); font-size: 0.92rem; color: var(--text);
+    font-weight: 500; text-align: left; font-family: 'DM Sans', sans-serif;
+    position: relative; overflow: hidden;
   }
-  .option:hover { border-color: var(--amber-light); background: #FEF9F0; transform: translateX(4px); }
-  .option.selected { border-color: var(--amber); background: var(--amber-pale); color: var(--brown-dark); }
-  .option.correct { border-color: var(--success); background: #DCFCE7; color: #14532D; }
-  .option.wrong   { border-color: var(--danger); background: #FEE2E2; color: #7F1D1D; }
+  .option::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(217,119,6,0.06), rgba(194,65,12,0.04));
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .option:hover {
+    border-color: var(--amber-light); background: #FEF9F0;
+    transform: translateX(4px); box-shadow: 0 2px 10px rgba(217,119,6,0.12);
+  }
+  .option:hover::before { opacity: 1; }
+  .option:active { transform: translateX(2px) scale(0.99); }
+  .option.selected {
+    border-color: var(--amber); background: var(--amber-pale);
+    color: var(--brown-dark); transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(217,119,6,0.22);
+  }
+  .option.selected::before { opacity: 1; }
   .option-letter {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--sand); color: var(--brown);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
-    transition: all 0.2s;
+    width: 28px; height: 28px; border-radius: 50%; background: var(--sand);
+    color: var(--brown); display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; flex-shrink: 0; transition: all 0.2s;
+    position: relative; z-index: 1;
   }
-  .option.selected .option-letter { background: var(--amber); color: white; }
+  .option.selected .option-letter {
+    background: var(--amber); color: white;
+    box-shadow: 0 2px 8px rgba(217,119,6,0.4);
+  }
+  /* checkmark animation on selected */
+  .option.selected .option-letter::after {
+    content: '✓'; position: absolute; font-size: 0.7rem; font-weight: 900;
+  }
+  .option.selected .option-letter { font-size: 0; }
+  .option-text { position: relative; z-index: 1; }
 
-  /* ─── NAV BOTTOM ─── */
   .question-footer {
     display: flex; justify-content: space-between; align-items: center;
-    margin-top: 1.8rem; padding-top: 1.2rem;
-    border-top: 1px solid var(--sand);
+    margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--sand);
   }
 
-  /* ─── RESULTS ─── */
   .result-iq {
-    font-family: 'Playfair Display', serif;
-    font-size: 5rem; font-weight: 900;
-    color: var(--amber); line-height: 1;
-    text-align: center; margin: 0.5rem 0;
+    font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900;
+    color: var(--amber); line-height: 1; text-align: center; margin: 0.5rem 0;
   }
-  .result-label {
-    text-align: center; font-size: 0.85rem;
-    color: var(--text-muted); font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  .result-category {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; font-weight: 700;
-    color: var(--brown-dark); text-align: center; margin-top: 0.4rem;
-  }
-  .result-desc {
-    font-size: 0.88rem; color: var(--text-muted); text-align: center;
-    line-height: 1.6; margin: 1rem 0;
-  }
-  .result-stats {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.8rem; margin: 1.2rem 0;
-  }
-  .stat-box {
-    background: var(--cream); border: 1px solid var(--sand);
-    border-radius: 10px; padding: 0.8rem; text-align: center;
-  }
+  .result-label { text-align: center; font-size: 0.85rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
+  .result-category { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--brown-dark); text-align: center; margin-top: 0.4rem; }
+  .result-desc { font-size: 0.88rem; color: var(--text-muted); text-align: center; line-height: 1.6; margin: 1rem 0; }
+  .result-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin: 1.2rem 0; }
+  .stat-box { background: var(--cream); border: 1px solid var(--sand); border-radius: 10px; padding: 0.8rem; text-align: center; }
   .stat-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--amber); }
   .stat-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
 
-  /* ─── ANALYST DASHBOARD ─── */
   .dashboard-wrap { width: 100%; max-width: 980px; padding: 2rem; }
-  .dash-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 2rem;
-  }
+  .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
   .dash-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--brown-dark); }
-  .dash-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem; }
 
   .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-  .stat-card {
-    background: var(--warm-white); border: 1px solid var(--sand);
-    border-radius: var(--radius); padding: 1.2rem 1.5rem;
-    box-shadow: var(--shadow);
-  }
+  .stat-card { background: var(--warm-white); border: 1px solid var(--sand); border-radius: var(--radius); padding: 1.2rem 1.5rem; box-shadow: var(--shadow); }
   .stat-card-val { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--amber); }
   .stat-card-lbl { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
 
-  .search-bar {
-    display: flex; gap: 0.8rem; margin-bottom: 1.2rem; align-items: center;
-  }
+  .search-bar { display: flex; gap: 0.8rem; margin-bottom: 1.2rem; align-items: center; }
   .search-bar input { margin: 0; flex: 1; }
 
   table { width: 100%; border-collapse: collapse; }
   thead tr { background: var(--brown-dark); }
-  thead th {
-    padding: 0.85rem 1rem; font-size: 0.75rem;
-    font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.08em; color: var(--sand); text-align: left;
-  }
+  thead th { padding: 0.85rem 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sand); text-align: left; }
   tbody tr { border-bottom: 1px solid var(--sand); transition: background 0.15s; }
   tbody tr:hover { background: #FEF3C7; }
   tbody td { padding: 0.85rem 1rem; font-size: 0.88rem; color: var(--text); }
 
-  .badge {
-    display: inline-block; padding: 0.25rem 0.7rem; border-radius: 100px;
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-  }
+  .badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
   .badge-genius { background: #EDE9FE; color: #5B21B6; }
   .badge-superior { background: #DCFCE7; color: #15803D; }
   .badge-medio-alto { background: #FEF9C3; color: #854D0E; }
@@ -355,59 +245,40 @@
   .badge-medio-baixo { background: #FFEDD5; color: #C2410C; }
   .badge-baixo { background: #FEE2E2; color: #B91C1C; }
 
-  .table-wrap {
-    background: var(--warm-white); border: 1px solid var(--sand);
-    border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
-  }
+  .table-wrap { background: var(--warm-white); border: 1px solid var(--sand); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(28,15,0,0.5); z-index: 999;
-    align-items: center; justify-content: center;
-    animation: fadeIn 0.2s ease;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,15,0,0.5); z-index: 999; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .modal {
-    background: var(--warm-white); border-radius: var(--radius);
-    padding: 2rem; max-width: 460px; width: 90%;
-    box-shadow: var(--shadow-lg);
-    animation: fadeUp 0.25s ease;
-  }
-  .modal h3 {
-    font-family: 'Playfair Display', serif; font-size: 1.4rem;
-    color: var(--brown-dark); margin-bottom: 1rem;
-  }
+  .modal { background: var(--warm-white); border-radius: var(--radius); padding: 2rem; max-width: 460px; width: 90%; box-shadow: var(--shadow-lg); animation: fadeUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown-dark); margin-bottom: 1rem; }
   .detail-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.88rem; }
   .detail-key { color: var(--text-muted); font-weight: 600; min-width: 100px; }
   .detail-val { color: var(--text); }
 
-  /* ─── CHART ─── */
-  .chart-wrap {
-    background: var(--warm-white); border: 1px solid var(--sand);
-    border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
-  }
+  .chart-wrap { background: var(--warm-white); border: 1px solid var(--sand); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
   .chart-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--brown-dark); margin-bottom: 1rem; }
   .chart-bars { display: flex; align-items: flex-end; gap: 0.5rem; height: 120px; }
   .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
-  .chart-bar {
-    width: 100%; background: linear-gradient(180deg, var(--amber-light), var(--amber));
-    border-radius: 6px 6px 0 0; transition: height 0.6s ease; min-height: 4px;
-  }
-  .chart-bar-label { font-size: 0.65rem; color: var(--text-muted); text-align: center; }
+  .chart-bar { width: 100%; background: linear-gradient(180deg, var(--amber-light), var(--amber)); border-radius: 6px 6px 0 0; transition: height 0.6s ease; min-height: 4px; }
 
-  .alert {
-    background: #FEF3C7; border: 1px solid var(--amber-light);
-    border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.85rem;
-    color: var(--brown); margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-
-  /* ─── DIVIDER ─── */
+  .alert { background: #FEF3C7; border: 1px solid var(--amber-light); border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.85rem; color: var(--brown); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
   .divider { height: 1px; background: var(--sand); margin: 1.2rem 0; }
 
-  /* ─── INTRO PAGE ─── */
+  /* ── FIX 1: HERO CENTRADO ── */
+  .hero-outer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-inner {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .hero-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 6vw, 4rem);
@@ -420,79 +291,56 @@
     text-align: center; max-width: 480px;
     line-height: 1.7; margin-bottom: 2rem;
   }
-  .info-pills {
-    display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;
-  }
-  .pill {
-    background: var(--amber-pale); color: var(--brown);
-    border: 1px solid var(--amber-light); border-radius: 100px;
-    padding: 0.35rem 0.9rem; font-size: 0.8rem; font-weight: 600;
-  }
+  .info-pills { display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+  .pill { background: var(--amber-pale); color: var(--brown); border: 1px solid var(--amber-light); border-radius: 100px; padding: 0.35rem 0.9rem; font-size: 0.8rem; font-weight: 600; }
 
-  /* ─── TIMEOUT ─── */
   .timeout-icon { font-size: 4rem; text-align: center; margin-bottom: 0.5rem; }
 
-  /* Responsive */
-  @media (max-width: 700px) {
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .role-cards { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .card { padding: 1.5rem; }
-    .stats-row { grid-template-columns: 1fr 1fr; }
-  }
+  @media (max-width: 700px) { .stats-row { grid-template-columns: 1fr 1fr; } .role-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .card { padding: 1.5rem; } .stats-row { grid-template-columns: 1fr 1fr; } }
 
   .no-data { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; }
   .page-test { padding: 1.5rem; }
   .test-card { max-width: 620px; }
 
-  .export-btn { cursor: pointer; }
-
-  /* Pulsing timer warning */
-  @keyframes pulse-warn {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
+  @keyframes pulse-warn { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
   .timer-warn .timer-fg { stroke: var(--terracotta) !important; }
   .timer-warn .timer-text { color: var(--terracotta) !important; animation: pulse-warn 0.8s ease infinite; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 1: LANDING / HOME
-═══════════════════════════════════════════ -->
+<!-- PAGE 1: HOME -->
 <div class="page active" id="page-home">
   <div style="text-align:center; margin-bottom:2rem;">
     <div class="logo">Cogn<span>IQ</span></div>
     <div class="tagline">Estudo Social de Inteligência</div>
   </div>
-  <div style="max-width:600px; width:100%;">
-    <div class="hero-title">Qual é o seu<br><span>quociente de inteligência?</span></div>
-    <div class="hero-sub">
-      Participe num estudo científico sobre a inteligência na sua faixa etária. 
-      O teste dura cerca de <strong>15 minutos</strong> e avalia diferentes dimensões cognitivas.
-    </div>
-    <div class="info-pills">
-      <span class="pill">⏱ Cronometrado</span>
-      <span class="pill">🧠 Multidimensional</span>
-      <span class="pill">🔒 Anónimo</span>
-      <span class="pill">📊 Resultado imediato</span>
-    </div>
-    <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+  <!-- FIX 1: hero-outer + hero-inner garante centrado em qualquer largura -->
+  <div class="hero-outer">
+    <div class="hero-inner">
+      <div class="hero-title">Qual é o seu<br><span>quociente de inteligência?</span></div>
+      <p class="hero-sub">
+        Participe num estudo científico sobre a inteligência na sua faixa etária.
+        O teste dura cerca de <strong>15 minutos</strong> e avalia diferentes dimensões cognitivas.
+      </p>
+      <div class="info-pills">
+        <span class="pill">⏱ Cronometrado</span>
+        <span class="pill">🧠 Multidimensional</span>
+        <span class="pill">🔒 Anónimo</span>
+        <span class="pill">📊 Resultado imediato</span>
+      </div>
       <button class="btn btn-primary" style="max-width:220px;" onclick="showPage('page-login')">
         ▶ Iniciar Teste
       </button>
+      <p style="font-size:0.78rem; color:var(--text-muted); text-align:center; margin-top:1.5rem;">
+        Os seus dados são utilizados apenas para fins académicos.
+      </p>
     </div>
-    <p style="font-size:0.78rem; color:var(--text-muted); text-align:center; margin-top:1.5rem;">
-      Os seus dados são utilizados apenas para fins académicos.
-    </p>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 2: LOGIN / ROLE
-═══════════════════════════════════════════ -->
+<!-- PAGE 2: LOGIN -->
 <div class="page" id="page-login">
   <div class="card">
     <div style="text-align:center; margin-bottom:1.5rem;">
@@ -500,23 +348,18 @@
     </div>
     <div class="card-title">Entrar</div>
     <div class="card-sub">Selecione o seu perfil para continuar.</div>
-
     <div class="role-cards">
       <div class="role-card selected" id="role-visitor" onclick="selectRole('visitor')">
-        <div class="icon">🧑‍🎓</div>
-        <div class="label">Participante</div>
+        <div class="icon">🧑‍🎓</div><div class="label">Participante</div>
       </div>
       <div class="role-card" id="role-analyst" onclick="selectRole('analyst')">
-        <div class="icon">🔬</div>
-        <div class="label">Analista</div>
+        <div class="icon">🔬</div><div class="label">Analista</div>
       </div>
     </div>
-
     <div id="analyst-key-wrap" style="display:none;">
       <label>Chave de Analista</label>
       <input type="password" id="analyst-key" placeholder="••••••••••••••" />
     </div>
-
     <button class="btn btn-primary" onclick="handleLogin()">Continuar →</button>
     <p id="login-error" style="color:var(--danger); font-size:0.83rem; margin-top:0.8rem; text-align:center; display:none;"></p>
     <div class="divider"></div>
@@ -524,20 +367,24 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 3: PARTICIPANT INFO
-═══════════════════════════════════════════ -->
+<!-- PAGE 3: PARTICIPANT INFO -->
 <div class="page" id="page-info">
   <div class="card">
     <div class="card-title">Os seus dados</div>
-    <div class="card-sub">Necessários para o estudo. Os dados são confidenciais e não são partilhados.</div>
+    <!-- FIX 3: esclarece que nome/apelido são opcionais -->
+    <div class="card-sub">Campos marcados como opcionais podem ser deixados em branco. Os dados são confidenciais.</div>
 
-    <label>Nome</label>
+    <!-- FIX 3: Nome opcional -->
+    <label>Nome <span class="label-optional">(opcional)</span></label>
     <input type="text" id="p-nome" placeholder="Ex: Ana" />
-    <label>Apelido</label>
+
+    <!-- FIX 3: Apelido opcional -->
+    <label>Apelido <span class="label-optional">(opcional)</span></label>
     <input type="text" id="p-apelido" placeholder="Ex: Silva" />
+
     <label>Idade</label>
     <input type="number" id="p-idade" placeholder="Ex: 22" min="10" max="99" />
+
     <label>Género</label>
     <select id="p-genero">
       <option value="">Selecionar...</option>
@@ -545,6 +392,7 @@
       <option value="Feminino">Feminino</option>
       <option value="Outro">Outro / Prefiro não dizer</option>
     </select>
+
     <label>Escolaridade</label>
     <select id="p-escolaridade">
       <option value="">Selecionar...</option>
@@ -560,9 +408,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 4: TEST
-═══════════════════════════════════════════ -->
+<!-- PAGE 4: TEST -->
 <div class="page page-test" id="page-test">
   <div class="card test-card" id="test-card">
     <div class="progress-wrap"><div class="progress-fill" id="progress-fill"></div></div>
@@ -570,7 +416,6 @@
       <span id="q-counter">Pergunta 1 de 20</span>
       <span id="q-section"></span>
     </div>
-
     <div class="question-header">
       <div class="question-meta">
         <div class="question-category" id="q-category"></div>
@@ -584,21 +429,15 @@
         <div class="timer-text" id="timer-display">30</div>
       </div>
     </div>
-
     <div class="options" id="options-container"></div>
-
     <div class="question-footer">
       <span id="answered-hint" style="font-size:0.8rem; color:var(--text-muted);"></span>
-      <button class="btn btn-primary btn-sm" id="next-btn" onclick="nextQuestion()" disabled>
-        Próxima →
-      </button>
+      <button class="btn btn-primary btn-sm" id="next-btn" onclick="nextQuestion()" disabled>Próxima →</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 5: RESULT (PARTICIPANT VIEW)
-═══════════════════════════════════════════ -->
+<!-- PAGE 5: RESULT -->
 <div class="page" id="page-result">
   <div class="card" style="max-width:520px;">
     <div style="text-align:center; margin-bottom:0.5rem;">
@@ -609,34 +448,20 @@
     </div>
     <div class="result-desc" id="result-desc"></div>
     <div class="result-stats">
-      <div class="stat-box">
-        <div class="stat-val" id="r-correct">0</div>
-        <div class="stat-lbl">Corretas</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val" id="r-total">0</div>
-        <div class="stat-lbl">Total</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val" id="r-time">0s</div>
-        <div class="stat-lbl">Tempo médio</div>
-      </div>
+      <div class="stat-box"><div class="stat-val" id="r-correct">0</div><div class="stat-lbl">Corretas</div></div>
+      <div class="stat-box"><div class="stat-val" id="r-total">0</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-box"><div class="stat-val" id="r-time">0s</div><div class="stat-lbl">Tempo médio</div></div>
     </div>
-
-    <!-- Radar / category breakdown -->
     <div class="divider"></div>
     <div style="font-size:0.8rem; font-weight:600; color:var(--brown); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.8rem;">Desempenho por área</div>
     <div id="category-breakdown" style="display:grid; gap:0.5rem;"></div>
-
     <div class="divider"></div>
     <div class="alert">⚠️ Este teste é uma estimativa científica simplificada e não substitui uma avaliação clínica completa.</div>
     <button class="btn btn-primary" onclick="showPage('page-home')">Concluir</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 6: TIMEOUT
-═══════════════════════════════════════════ -->
+<!-- PAGE 6: TIMEOUT -->
 <div class="page" id="page-timeout">
   <div class="card" style="text-align:center; max-width:420px;">
     <div class="timeout-icon">⏰</div>
@@ -646,36 +471,31 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PAGE 7: ANALYST DASHBOARD
-═══════════════════════════════════════════ -->
+<!-- PAGE 7: ANALYST DASHBOARD -->
 <div class="page" id="page-analyst" style="padding:1.5rem; align-items:flex-start; justify-content:flex-start;">
   <div class="dashboard-wrap">
     <div class="dash-header">
       <div>
         <div class="dash-title">Painel de Análise</div>
-        <div class="dash-subtitle" id="dash-subtitle">CognIQ — Estudo Social de Inteligência</div>
+        <div style="font-size:0.85rem; color:var(--text-muted);">CognIQ — Estudo Social de Inteligência</div>
       </div>
       <div style="display:flex; gap:0.8rem;">
-        <button class="btn btn-ghost btn-sm export-btn" onclick="exportCSV()">⬇ Exportar CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="renderDashboard()">↺ Atualizar</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Exportar CSV</button>
         <button class="btn btn-ghost btn-sm" onclick="confirmLogout()">Sair</button>
       </div>
     </div>
-
-    <div class="stats-row" id="stats-row">
-      <div class="stat-card"><div class="stat-card-val" id="ds-total">0</div><div class="stat-card-lbl">Participantes</div></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-card-val" id="ds-total">—</div><div class="stat-card-lbl">Participantes</div></div>
       <div class="stat-card"><div class="stat-card-val" id="ds-avg">—</div><div class="stat-card-lbl">QI Médio</div></div>
       <div class="stat-card"><div class="stat-card-val" id="ds-max">—</div><div class="stat-card-lbl">QI Máximo</div></div>
       <div class="stat-card"><div class="stat-card-val" id="ds-min">—</div><div class="stat-card-lbl">QI Mínimo</div></div>
     </div>
-
-    <!-- Distribution Chart -->
     <div class="chart-wrap">
       <div class="chart-title">Distribuição de QI</div>
       <div class="chart-bars" id="dist-chart"></div>
       <div style="display:flex; gap:0.5rem; margin-top:0.5rem;" id="dist-labels"></div>
     </div>
-
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="🔍 Pesquisar por nome, apelido ou idade..." oninput="renderTable()" style="margin:0; max-width:360px;" />
       <select id="sort-select" onchange="renderTable()" style="margin:0; max-width:180px;">
@@ -685,35 +505,19 @@
         <option value="name">Nome A-Z</option>
       </select>
     </div>
-
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Apelido</th>
-            <th>Idade</th>
-            <th>Género</th>
-            <th>Escolaridade</th>
-            <th>QI</th>
-            <th>Classificação</th>
-            <th>Acertos</th>
-            <th>Data</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="records-tbody">
-          <tr><td colspan="11" class="no-data">Sem registos ainda.</td></tr>
-        </tbody>
+        <thead><tr>
+          <th>#</th><th>Nome</th><th>Apelido</th><th>Idade</th><th>Género</th>
+          <th>Escolaridade</th><th>QI</th><th>Classificação</th><th>Acertos</th><th>Data</th><th></th>
+        </tr></thead>
+        <tbody id="records-tbody"><tr><td colspan="11" class="no-data">Sem registos ainda.</td></tr></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MODAL: SUBJECT DETAIL
-═══════════════════════════════════════════ -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-detail">
   <div class="modal">
     <h3 id="modal-name">Ficha do Sujeito</h3>
@@ -724,491 +528,354 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════ -->
 <script>
-// ══════════════════════════════════════════════════
-// SUPABASE CONFIG
-// ══════════════════════════════════════════════════
 const SUPABASE_URL = 'https://heoyejsjgnlujialduiw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhlb3llanNqZ25sdWppYWxkdWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDk4MjIsImV4cCI6MjA5MzU4NTgyMn0.H91FmH4iVGdex_0_62cprXyO7J0GQsCug5luJ4Ks9rU';
 
 async function sbFetch(path, options = {}) {
+  const h = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json'
+  };
+  if (options.prefer) h['Prefer'] = options.prefer;
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
-    ...options,
-    headers: {
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': options.prefer || '',
-      ...(options.headers || {})
-    }
+    method: options.method || 'GET', headers: h, body: options.body
   });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error('Supabase error: ' + err);
-  }
+  if (!res.ok) { const e = await res.text(); throw new Error('Supabase: ' + e); }
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
 
-// ══════════════════════════════════════════════════
-// ANALYST KEY (visível no frontend — ver nota)
-// NOTA: Para ocultar verdadeiramente, usaria Supabase Edge Function
-// ══════════════════════════════════════════════════
 const ANALYST_KEY = 'LourençoX7X82X11';
-
-// ══════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════
-let currentRole = 'visitor';
-let participant = {};
-let activeQuestions = [];
-let answers = [];
-let currentQ = 0;
-let timer = null;
-let timeLeft = 0;
-let startTime = null;
-let totalTime = 0;
-let records = [];
-let selectedOption = null;
+let currentRole = 'visitor', participant = {}, activeQuestions = [];
+let answers = [], currentQ = 0, timer = null, timeLeft = 0;
+let startTime = null, totalTime = 0, records = [], selectedOption = null;
 const CIRCUMFERENCE = 2 * Math.PI * 30;
 
-// ══════════════════════════════════════════════════
-// QUESTION BANKS — por nível de escolaridade
-// difficulty: 1=fácil, 2=médio, 3=difícil
-// ══════════════════════════════════════════════════
+// ── QUESTION BANKS ──────────────────────────────────────────────────────────
 
-// NÍVEL: Ensino Básico (perguntas originais)
 const Q_BASICO = [
   { category: 'Raciocínio Lógico', difficulty: 1, timeLimit: 30,
     text: 'Se todos os cães são animais, e alguns animais são perigosos, então:',
-    options: ['Todos os cães são perigosos', 'Alguns cães podem ser perigosos', 'Nenhum cão é perigoso', 'Todos os animais são cães'],
-    correct: 1 },
+    options: ['Todos os cães são perigosos', 'Alguns cães podem ser perigosos', 'Nenhum cão é perigoso', 'Todos os animais são cães'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
-    text: 'Na sequência: 2, 6, 18, 54, ___ qual é o número seguinte?',
-    options: ['108', '162', '72', '216'],
-    correct: 1 },
+    text: 'Na sequência: 2, 6, 18, 54 — qual é o número seguinte?',
+    options: ['108', '162', '72', '216'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 30,
     text: 'Se A > B e B > C, qual das afirmações é sempre verdadeira?',
-    options: ['C > A', 'A > C', 'B = C', 'A = B'],
-    correct: 1 },
+    options: ['C > A', 'A > C', 'B = C', 'A = B'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 40,
-    text: 'Três amigos (Ana, Bruno, Carlos) têm 20, 22 e 25 anos. Ana não é a mais nova. Carlos não é o mais velho. Quem tem 22 anos?',
-    options: ['Ana', 'Bruno', 'Carlos', 'Impossível determinar'],
-    correct: 0 },
+    text: 'Ana, Bruno e Carlos têm 20, 22 e 25 anos. Ana não é a mais nova. Carlos não é o mais velho. Quem tem 22 anos?',
+    options: ['Ana', 'Bruno', 'Carlos', 'Impossível determinar'], correct: 0 },
   { category: 'Padrões & Sequências', difficulty: 1, timeLimit: 25,
     text: 'Qual o número que falta? 1, 4, 9, 16, ___',
-    options: ['20', '25', '24', '36'],
-    correct: 1 },
+    options: ['20', '25', '24', '36'], correct: 1 },
   { category: 'Padrões & Sequências', difficulty: 2, timeLimit: 30,
     text: 'Qual a próxima letra? A, C, E, G, ___',
-    options: ['H', 'I', 'J', 'K'],
-    correct: 1 },
+    options: ['H', 'I', 'J', 'K'], correct: 1 },
   { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 35,
     text: 'Qual o número que falta? 3, 7, 15, 31, ___',
-    options: ['47', '55', '63', '59'],
-    correct: 2 },
+    options: ['47', '55', '63', '59'], correct: 2 },
   { category: 'Raciocínio Numérico', difficulty: 1, timeLimit: 25,
-    text: 'Se um produto custa €80 e tem 25% de desconto, qual é o preço final?',
-    options: ['€55', '€60', '€65', '€70'],
-    correct: 1 },
+    text: 'Um produto custa €80 com 25% de desconto. Qual o preço final?',
+    options: ['€55', '€60', '€65', '€70'], correct: 1 },
   { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
-    text: 'Um comboio viaja a 120 km/h. Quanto tempo demora a percorrer 300 km?',
-    options: ['2 h', '2 h 30 min', '3 h', '2 h 15 min'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
-    text: 'Se 5x + 3 = 28, qual é o valor de x?',
-    options: ['4', '5', '6', '7'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 40,
-    text: 'Qual é a área de um triângulo com base 12 cm e altura 9 cm?',
-    options: ['54 cm²', '108 cm²', '48 cm²', '36 cm²'],
-    correct: 0 },
+    text: 'Um comboio a 120 km/h. Quanto demora a percorrer 300 km?',
+    options: ['2 h', '2 h 30 min', '3 h', '2 h 15 min'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 1, timeLimit: 25,
     text: '"Plácido" é sinónimo de:',
-    options: ['Agitado', 'Tranquilo', 'Ruidoso', 'Nervoso'],
-    correct: 1 },
+    options: ['Agitado', 'Tranquilo', 'Ruidoso', 'Nervoso'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
-    text: 'Identifique a analogia: Médico : Hospital :: Professor : ___',
-    options: ['Aluno', 'Escola', 'Livro', 'Conhecimento'],
-    correct: 1 },
+    text: 'Médico : Hospital :: Professor : ___',
+    options: ['Aluno', 'Escola', 'Livro', 'Conhecimento'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
-    text: 'Qual das palavras é o antónimo de "efémero"?',
-    options: ['Rápido', 'Passageiro', 'Duradouro', 'Transitório'],
-    correct: 2 },
+    text: 'Antónimo de "efémero":',
+    options: ['Rápido', 'Passageiro', 'Duradouro', 'Transitório'], correct: 2 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 35,
-    text: 'Qual a frase gramaticalmente correta?',
-    options: ['Haviam muitas pessoas no evento.', 'Havia muitas pessoas no evento.', 'Haveria muitas pessoas no evento.', 'Houveram muitas pessoas no evento.'],
-    correct: 1 },
+    text: 'Frase gramaticalmente correta:',
+    options: ['Haviam muitas pessoas.', 'Havia muitas pessoas.', 'Haveria muitas pessoas.', 'Houveram muitas pessoas.'], correct: 1 },
   { category: 'Atenção & Memória', difficulty: 1, timeLimit: 20,
     text: 'Quantos números pares existem entre 1 e 10 (inclusive)?',
-    options: ['3', '4', '5', '6'],
-    correct: 2 },
+    options: ['3', '4', '5', '6'], correct: 2 },
   { category: 'Atenção & Memória', difficulty: 2, timeLimit: 30,
-    text: 'Numa sequência ABBA, BAAB, ABBA, qual vem a seguir?',
-    options: ['ABBA', 'BAAB', 'AABB', 'BBAA'],
-    correct: 1 },
+    text: 'Sequência ABBA, BAAB, ABBA — qual vem a seguir?',
+    options: ['ABBA', 'BAAB', 'AABB', 'BBAA'], correct: 1 },
   { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 35,
     text: 'Um cubo tem 6 faces. Quantas arestas tem?',
-    options: ['8', '10', '12', '14'],
-    correct: 2 },
+    options: ['8', '10', '12', '14'], correct: 2 },
   { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 40,
     text: 'Se rodar a letra "d" 180° no eixo horizontal, que letra obtém?',
-    options: ['b', 'p', 'q', 'd'],
-    correct: 1 },
+    options: ['b', 'p', 'q', 'd'], correct: 1 },
   { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 40,
-    text: 'Qual dos números completa a série: 1, 1, 2, 3, 5, 8, ___?',
-    options: ['11', '12', '13', '14'],
-    correct: 2 },
+    text: 'Qual o número que completa: 1, 1, 2, 3, 5, 8, ___?',
+    options: ['11', '12', '13', '14'], correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
+    text: 'Numa fila, Pedro é o 5.º a contar do início e o 4.º a contar do fim. Quantas pessoas há na fila?',
+    options: ['7', '8', '9', '10'], correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 2, timeLimit: 30,
+    text: 'Qual o próximo par? (1,1), (2,4), (3,9), (4,16), ___',
+    options: ['(5,20)', '(5,25)', '(5,30)', '(5,36)'], correct: 1 },
 ];
 
-// NÍVEL: Ensino Secundário
 const Q_SECUNDARIO = [
   { category: 'Raciocínio Lógico', difficulty: 1, timeLimit: 30,
     text: 'Todos os mamíferos respiram ar. A baleia é um mamífero. Logo:',
-    options: ['A baleia não respira ar', 'A baleia respira ar', 'Alguns mamíferos não respiram ar', 'A baleia é um peixe'],
-    correct: 1 },
+    options: ['A baleia não respira ar', 'A baleia respira ar', 'Alguns mamíferos não respiram ar', 'A baleia é um peixe'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
-    text: 'Numa sala estão 30 alunos. 18 gostam de matemática, 15 gostam de história, e 8 gostam de ambas. Quantos não gostam de nenhuma?',
-    options: ['3', '4', '5', '7'],
-    correct: 2 },
-  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
-    text: 'Se P implica Q, e Q implica R, qual das seguintes é sempre verdadeira?',
-    options: ['R implica P', 'P implica R', 'Q implica P', 'R implica Q'],
-    correct: 1 },
-  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 45,
-    text: 'Quatro irmãos (A, B, C, D) vivem em andares diferentes (1 ao 4). A vive acima de C. B vive abaixo de D. C não vive no 1.º andar. Quem vive no 1.º?',
-    options: ['A', 'B', 'C', 'D'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 1, timeLimit: 30,
-    text: 'Qual é a derivada de f(x) = 3x² + 2x?',
-    options: ['6x', '6x + 2', '3x + 2', '6x²'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
-    text: 'Se log₂(x) = 5, qual é o valor de x?',
-    options: ['10', '25', '32', '64'],
-    correct: 2 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 35,
-    text: 'Uma conta bancária com €500 a 4% de juro composto anual. Qual o saldo ao fim de 2 anos?',
-    options: ['€540', '€540,80', '€541,20', '€580'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 45,
-    text: 'Quantos números primos existem entre 10 e 30?',
-    options: ['4', '5', '6', '7'],
-    correct: 1 },
+    text: 'Quatro irmãos (A, B, C, D) vivem em andares diferentes (1 ao 4). A vive acima de C. B vive abaixo de D. C não está no 1.º. Quem está no 1.º?',
+    options: ['A', 'B', 'C', 'D'], correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 40,
+    text: 'Se P implica Q, e Q implica R, o que se pode concluir?',
+    options: ['R implica P', 'P implica R', 'Q implica P', 'Nada'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
+    text: 'Se CASA → ECUC e BOLA → DQNC, qual é o código de SOL?',
+    options: ['UQN', 'UPN', 'VQN', 'UQM'], correct: 0 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 45,
+    text: '"Se não chove, vou correr." Equivale logicamente a:',
+    options: ['Se choveu, não fui correr', 'Se não fui correr, choveu', 'Se fui correr, não choveu', 'Se chove, vou correr'], correct: 1 },
   { category: 'Padrões & Sequências', difficulty: 2, timeLimit: 30,
-    text: 'Qual o termo geral da sucessão: 2, 5, 10, 17, 26, ...?',
-    options: ['n² + 1', 'n² + n', '2n + 1', '3n - 1'],
-    correct: 0 },
-  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 40,
     text: 'Na sequência: 1, 3, 6, 10, 15, ___ qual é o próximo?',
-    options: ['18', '20', '21', '22'],
-    correct: 2 },
+    options: ['18', '20', '21', '22'], correct: 2 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 40,
+    text: 'Qual o próximo número? 2, 3, 5, 8, 13, ___',
+    options: ['17', '19', '21', '23'], correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 35,
+    text: 'Andas 3 km para Norte, depois 3 km para Este, depois 3 km para Sul. Em que direção andas para regressar ao ponto de partida?',
+    options: ['Norte', 'Sul', 'Este', 'Oeste'], correct: 3 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 30,
+    text: 'Numa sala com 4 cantos, cada canto tem 1 gato, e cada gato vê 3 gatos. Quantos gatos há?',
+    options: ['3', '4', '12', '16'], correct: 1 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 40,
+    text: 'Um caracol sobe 3m por dia e desce 2m por noite. Numa parede de 10m, em quantos dias chega ao topo?',
+    options: ['7', '8', '10', '12'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 1, timeLimit: 25,
     text: '"Ubíquo" significa:',
-    options: ['Único', 'Presente em todo o lado', 'Raro', 'Invisível'],
-    correct: 1 },
+    options: ['Único', 'Presente em todo o lado', 'Raro', 'Invisível'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
-    text: 'Identifique o erro na frase: "Mediante a análise dos dados, os investigadores concluirão que havia uma correlação."',
-    options: ['Mediante', 'Concluirão (devia ser concluíram)', 'Havia', 'Correlação'],
-    correct: 1 },
-  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
-    text: 'Qual é a figura de estilo em: "O silêncio gritou mais alto que qualquer palavra"?',
-    options: ['Metáfora', 'Ironia', 'Oxímoro', 'Eufemismo'],
-    correct: 2 },
+    text: 'Figura de estilo em "O silêncio gritou mais alto que qualquer palavra":',
+    options: ['Metáfora', 'Ironia', 'Oxímoro', 'Eufemismo'], correct: 2 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 35,
-    text: '"Epistemologia" é o ramo da filosofia que estuda:',
-    options: ['A moral e a ética', 'O conhecimento e a sua origem', 'A beleza e a arte', 'A existência e o ser'],
-    correct: 1 },
+    text: '"Epistemologia" estuda:',
+    options: ['A moral e a ética', 'O conhecimento e a sua origem', 'A beleza e a arte', 'A existência e o ser'], correct: 1 },
   { category: 'Atenção & Memória', difficulty: 2, timeLimit: 30,
-    text: 'Um dado é lançado duas vezes. Qual a probabilidade de obter dois números pares?',
-    options: ['1/2', '1/3', '1/4', '1/6'],
-    correct: 2 },
-  { category: 'Atenção & Memória', difficulty: 2, timeLimit: 35,
-    text: 'Qual o valor de sen(90°) + cos(0°)?',
-    options: ['0', '1', '2', '√2'],
-    correct: 2 },
+    text: 'Quantas vezes aparece a letra A em "BANANA MADURA"?',
+    options: ['3', '4', '5', '6'], correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 2, timeLimit: 30,
+    text: 'De 30 estudantes, 18 estudam Inglês, 15 Francês, 8 ambos. Quantos não estudam nenhum?',
+    options: ['3', '4', '5', '7'], correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
+    text: 'A negação de "Todos os alunos passaram" é:',
+    options: ['Nenhum aluno passou', 'Alguns alunos não passaram', 'Todos chumbaram', 'Alguns passaram'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 40,
+    text: '5 trabalhadores constroem 5m de muro em 5 dias. Quantos dias precisam 10 trabalhadores para 10m?',
+    options: ['5', '10', '15', '20'], correct: 0 },
+  { category: 'Padrões & Sequências', difficulty: 2, timeLimit: 30,
+    text: 'Qual a letra que completa? B, D, G, K, ___',
+    options: ['O', 'P', 'Q', 'R'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
+    text: '"Assertivo" descreve alguém que:',
+    options: ['É agressivo', 'Afirma opiniões com confiança e sem agressividade', 'Nunca discorda', 'É passivo'], correct: 1 },
   { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 35,
-    text: 'Uma esfera tem raio 3 cm. Qual é o seu volume? (V = 4/3 π r³)',
-    options: ['9π cm³', '12π cm³', '36π cm³', '27π cm³'],
-    correct: 2 },
-  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 40,
-    text: 'Num plano cartesiano, a distância entre os pontos (1,2) e (4,6) é:',
-    options: ['3', '4', '5', '7'],
-    correct: 2 },
-  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
-    text: 'Se CASA → 3131 e BOLA → 2413, qual é o código de LOBO?',
-    options: ['4123', '4321', '4312', '3142'],
-    correct: 0 },
-  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 45,
-    text: 'Qual das afirmações é logicamente equivalente a "Se não chove, vou correr"?',
-    options: ['Se choveu, não fui correr', 'Se não fui correr, choveu', 'Se fui correr, não choveu', 'Se chove, não vou correr'],
-    correct: 1 },
+    text: 'Se rodar a seta → 90° no sentido dos ponteiros do relógio, para onde aponta?',
+    options: ['↑', '↓', '←', '→'], correct: 1 },
 ];
 
-// NÍVEL: Licenciatura
 const Q_LICENCIATURA = [
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 35,
-    text: 'Qual das seguintes afirmações é a negação de "Todos os corvos são pretos"?',
-    options: ['Nenhum corvo é preto', 'Alguns corvos são pretos', 'Existe pelo menos um corvo que não é preto', 'Todos os corvos são brancos'],
-    correct: 2 },
+    text: 'A negação de "Todos os corvos são pretos" é:',
+    options: ['Nenhum corvo é preto', 'Alguns corvos são pretos', 'Existe pelo menos um corvo que não é preto', 'Todos os corvos são brancos'], correct: 2 },
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
-    text: 'P → Q é logicamente equivalente a:',
-    options: ['Q → P', '¬P → ¬Q', '¬Q → ¬P', 'P ∧ Q'],
-    correct: 2 },
+    text: '"P → Q" é logicamente equivalente a:',
+    options: ['Q → P', '¬P → ¬Q', '¬Q → ¬P', 'P ∧ Q'], correct: 2 },
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
-    text: 'Num grupo de 100 pessoas: 60 falam inglês, 40 falam francês, 20 falam ambos. Quantas não falam nenhum?',
-    options: ['10', '20', '30', '40'],
-    correct: 1 },
+    text: '3 caixas etiquetadas errado: "Maçãs", "Laranjas", "Mistura". Retiras 1 fruto da caixa "Mistura" — é uma maçã. O que contém a caixa "Laranjas"?',
+    options: ['Maçãs', 'Laranjas', 'Mistura', 'Impossível saber'], correct: 2 },
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
-    text: 'Em qual sistema de lógica uma proposição pode ser verdadeira, falsa ou indeterminada?',
-    options: ['Lógica clássica', 'Lógica booleana', 'Lógica fuzzy / trivalente', 'Lógica modal'],
-    correct: 2 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 40,
-    text: 'Qual é o integral de f(x) = 2x + 3?',
-    options: ['x² + 3x', 'x² + 3x + C', '2x² + 3x + C', '2 + C'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 40,
-    text: 'A média de 5 números é 12. Retira-se um número e a nova média é 10. Qual o número retirado?',
-    options: ['18', '20', '22', '24'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 50,
-    text: 'Qual é o determinante da matriz [[2,3],[1,4]]?',
-    options: ['5', '8', '11', '14'],
-    correct: 0 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 50,
-    text: 'Quantas permutações distintas tem a palavra BANANA?',
-    options: ['60', '120', '360', '720'],
-    correct: 0 },
+    text: '"Alguns médicos são filósofos. Todos os filósofos são curiosos." O que se conclui necessariamente?',
+    options: ['Todos os médicos são curiosos', 'Alguns médicos são curiosos', 'Nenhum médico é curioso', 'Os filósofos não são médicos'], correct: 1 },
   { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 45,
-    text: 'Na sucessão definida por a(n) = a(n-1) + a(n-2), com a(1)=1 e a(2)=1, qual é a(8)?',
-    options: ['13', '21', '34', '55'],
-    correct: 1 },
+    text: 'Complete: 2, 5, 11, 23, 47, ___',
+    options: ['87', '91', '95', '99'], correct: 2 },
   { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 45,
-    text: 'Qual o próximo elemento: 2, 3, 5, 7, 11, 13, ___?',
-    options: ['15', '17', '19', '21'],
-    correct: 1 },
+    text: 'Qual o próximo número primo? 2, 3, 5, 7, 11, 13, ___',
+    options: ['15', '17', '19', '21'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
+    text: '1 gato mata 1 rato em 1 minuto. 5 gatos matam 5 ratos em:',
+    options: ['1 minuto', '5 minutos', '25 minutos', '10 minutos'], correct: 0 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 40,
+    text: 'Num grupo, cada pessoa aperta a mão a todas as outras 1 vez. Há 45 apertos. Quantas pessoas há?',
+    options: ['8', '9', '10', '11'], correct: 2 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 45,
+    text: 'Semente está para Árvore como Larva está para:',
+    options: ['Abelha', 'Borboleta', 'Minhoca', 'Casulo'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
     text: '"Tautologia" é uma proposição que:',
-    options: ['É sempre falsa', 'É sempre verdadeira independentemente dos valores', 'Contradiz outra proposição', 'Depende do contexto'],
-    correct: 1 },
+    options: ['É sempre falsa', 'É sempre verdadeira independentemente dos valores', 'Contradiz outra', 'Depende do contexto'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
     text: '"Hermenêutica" refere-se à teoria de:',
-    options: ['Criação literária', 'Interpretação de textos', 'Estética visual', 'Retórica política'],
-    correct: 1 },
-  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 40,
-    text: 'Qual o conceito associado ao paradoxo de Russell na teoria dos conjuntos?',
-    options: ['Conjuntos bem ordenados', 'Um conjunto que se contém a si próprio', 'O axioma da escolha', 'A cardinalidade de conjuntos infinitos'],
-    correct: 1 },
+    options: ['Criação literária', 'Interpretação de textos', 'Estética visual', 'Retórica política'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 30,
+    text: '"Tácito" significa:',
+    options: ['Muito falador', 'Implícito, não dito', 'Audaz', 'Complicado'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 40,
     text: '"Dialética" no sentido hegeliano refere-se a:',
-    options: ['A arte da retórica', 'O processo tese-antítese-síntese', 'A lógica formal', 'O empirismo científico'],
-    correct: 1 },
-  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
-    text: 'Se f(x) = x² e g(x) = 2x + 1, qual é (f∘g)(3)?',
-    options: ['37', '49', '25', '13'],
-    correct: 1 },
-  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 50,
-    text: 'Qual é o número de subconjuntos de um conjunto com 4 elementos?',
-    options: ['8', '12', '16', '24'],
-    correct: 2 },
+    options: ['A arte da retórica', 'O processo tese-antítese-síntese', 'A lógica formal', 'O empirismo científico'], correct: 1 },
   { category: 'Atenção & Memória', difficulty: 2, timeLimit: 35,
-    text: 'Em estatística, o coeficiente de correlação de Pearson varia entre:',
-    options: ['0 e 1', '-1 e 0', '-1 e 1', '0 e ∞'],
-    correct: 2 },
+    text: 'Padrão ×2 depois −3, começando em 5: qual é o 5.º termo?',
+    options: ['29', '33', '35', '37'], correct: 2 },
   { category: 'Atenção & Memória', difficulty: 3, timeLimit: 45,
-    text: 'Qual a probabilidade de tirar um ás de espadas de um baralho de 52 cartas?',
-    options: ['1/13', '1/26', '1/52', '4/52'],
-    correct: 2 },
+    text: '500 funcionários: 60% são homens. 40% dos homens e 30% das mulheres têm licenciatura. Quantos têm licenciatura?',
+    options: ['150', '180', '210', '240'], correct: 1 },
   { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 40,
-    text: 'Em geometria diferencial, uma superfície com curvatura gaussiana = 0 é chamada:',
-    options: ['Esférica', 'Hiperbólica', 'Plana (euclidiana)', 'Parabólica'],
-    correct: 2 },
-  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 50,
-    text: 'Num espaço n-dimensional, quantos vértices tem um hipercubo?',
-    options: ['n²', '2n', '2^n', 'n!'],
-    correct: 2 },
+    text: 'Andas 1km Norte, 1km Este, 1km Sul, 1km Oeste. Onde estás?',
+    options: ['No ponto de partida', '1km a Norte', '1km a Este', '1km a Sul'], correct: 0 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 45,
+    text: 'Número máximo de regiões em que 3 círculos sobrepostos dividem o plano:',
+    options: ['6', '7', '8', '9'], correct: 2 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
+    text: 'O "problema da indução" de Hume questiona:',
+    options: ['A validade da matemática', 'Se podemos justificar generalizações com base na experiência passada', 'A existência do mundo exterior', 'A utilidade das teorias científicas'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 40,
+    text: 'O que distingue "correlação" de "causalidade"?',
+    options: ['São sinónimos', 'Correlação indica associação; causalidade implica produção de efeito', 'Causalidade é mais fraca', 'Apenas causalidade é mensurável'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 35,
+    text: '"Occam\'s Razor" postula:',
+    options: ['A solução mais complexa é sempre errada', 'Preferir a hipótese mais simples que explique os dados', 'As soluções simples são sempre corretas', 'Os dados simples são sempre fiáveis'], correct: 1 },
 ];
 
-// NÍVEL: Mestrado
 const Q_MESTRADO = [
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
     text: 'O teorema da incompletude de Gödel afirma que:',
-    options: ['Todo sistema axiomático é completo', 'Qualquer sistema formal suficientemente expressivo contém proposições indecidíveis', 'A matemática é redutível à lógica', 'Os paradoxos podem ser eliminados com axiomas'],
-    correct: 1 },
+    options: ['Todo sistema axiomático é completo', 'Qualquer sistema formal suficientemente expressivo contém proposições indecidíveis', 'A matemática é redutível à lógica', 'Os paradoxos eliminam-se com axiomas'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 50,
-    text: 'Qual das propriedades NÃO é necessariamente válida numa relação de equivalência?',
-    options: ['Reflexividade', 'Simetria', 'Transitividade', 'Anti-simetria'],
-    correct: 3 },
-  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 55,
-    text: 'Na teoria da complexidade computacional, qual classe contém problemas verificáveis em tempo polinomial mas cuja solução pode não ser encontrada eficientemente?',
-    options: ['P', 'NP', 'PSPACE', 'EXP'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 45,
-    text: 'Qual é o valor de lim(x→0) de sen(x)/x?',
-    options: ['0', '∞', '1', 'Indefinido'],
-    correct: 2 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 55,
-    text: 'Qual é o integral ∫₀^π sen(x) dx?',
-    options: ['0', '1', '2', 'π'],
-    correct: 2 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 55,
-    text: 'A série de Taylor de e^x em torno de x=0 é:',
-    options: ['Σ xⁿ/n', 'Σ xⁿ/n!', 'Σ (-1)ⁿ xⁿ/n!', 'Σ xⁿ'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 60,
-    text: 'Qual é o número de grafos simples não-isomórficos com 4 vértices?',
-    options: ['8', '11', '16', '24'],
-    correct: 1 },
-  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
-    text: 'A sequência de Catalan começa 1, 1, 2, 5, 14, 42... Qual é o 7.º termo?',
-    options: ['90', '120', '132', '165'],
-    correct: 2 },
-  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
-    text: 'Qual o número de regiões em que n retas em posição geral dividem o plano?',
-    options: ['n(n+1)/2', '1 + n(n+1)/2', 'n²', 'n! + 1'],
-    correct: 1 },
-  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
-    text: '"Abdução" no contexto da filosofia da ciência (Peirce) refere-se a:',
-    options: ['Dedução rigorosa a partir de axiomas', 'Inferência para a melhor explicação', 'Generalização por indução', 'Refutação por contraexemplo'],
-    correct: 1 },
-  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
-    text: 'O "problema difícil da consciência" (Chalmers) questiona:',
-    options: ['Como o cérebro processa informação', 'Por que razão existe experiência subjetiva para além da função neural', 'Se animais são conscientes', 'A localização da consciência no cérebro'],
-    correct: 1 },
-  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
-    text: '"Qualia" refere-se a:',
-    options: ['Propriedades quantitativas dos fenómenos', 'As qualidades subjetivas da experiência consciente', 'Atributos mensuráveis da matéria', 'A lógica das qualidades formais'],
-    correct: 1 },
-  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
-    text: 'Na álgebra linear, qual é a dimensão do espaço nulo (kernel) de uma matriz 3×5 com rank 2?',
-    options: ['1', '2', '3', '5'],
-    correct: 2 },
-  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
-    text: 'O teorema de Bayes afirma que P(A|B) =:',
-    options: ['P(B|A) · P(A)', 'P(B|A) · P(A) / P(B)', 'P(A) · P(B)', 'P(A ∩ B) / P(A)'],
-    correct: 1 },
-  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
-    text: 'O teste t de Student é adequado para comparar:',
-    options: ['Variâncias de mais de 2 grupos', 'Médias de duas amostras independentes ou emparelhadas', 'Correlações entre variáveis', 'Distribuições categóricas'],
-    correct: 1 },
-  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
-    text: 'Em aprendizagem automática, o "overfitting" é caracterizado por:',
-    options: ['Modelo com erro alto em treino e teste', 'Modelo que generaliza bem para novos dados', 'Modelo que memoriza os dados de treino mas falha em novos dados', 'Modelo com poucos parâmetros'],
-    correct: 2 },
-  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 45,
-    text: 'Na topologia, um toro (donut) tem genus:',
-    options: ['0', '1', '2', '3'],
-    correct: 1 },
-  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 55,
-    text: 'Qual das seguintes superfícies é não-orientável?',
-    options: ['Esfera', 'Toro', 'Faixa de Möbius', 'Cilindro'],
-    correct: 2 },
+    text: 'Qual das propriedades NÃO é necessária numa relação de equivalência?',
+    options: ['Reflexividade', 'Simetria', 'Transitividade', 'Anti-simetria'], correct: 3 },
   { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
     text: 'O que distingue axioma de teorema?',
-    options: ['Axioma é demonstrado, teorema é assumido', 'Axioma é assumido como verdadeiro, teorema é deduzido a partir de axiomas', 'Ambos são demonstráveis', 'Teorema é mais fundamental que axioma'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 2, timeLimit: 45,
-    text: 'Qual é o valor de i⁴ (sendo i a unidade imaginária)?',
-    options: ['-1', 'i', '-i', '1'],
-    correct: 3 },
+    options: ['Axioma é demonstrado, teorema é assumido', 'Axioma é assumido como verdadeiro, teorema é deduzido a partir de axiomas', 'Ambos são demonstráveis', 'Teorema é mais fundamental'], correct: 1 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
+    text: 'Qual o número de regiões em que n retas em posição geral dividem o plano (para n=5)?',
+    options: ['11', '15', '16', '21'], correct: 2 },
+  { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 50,
+    text: 'Na série: 1, 3, 7, 15, 31, ___',
+    options: ['47', '55', '63', '67'], correct: 2 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
+    text: '"Abdução" (Peirce) refere-se a:',
+    options: ['Dedução rigorosa', 'Inferência para a melhor explicação', 'Generalização por indução', 'Refutação por contraexemplo'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
+    text: 'O "problema difícil da consciência" (Chalmers) questiona:',
+    options: ['Como o cérebro processa informação', 'Por que existe experiência subjetiva para além da função neural', 'Se animais são conscientes', 'A localização da consciência'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
+    text: '"Hermenêutica do círculo" descreve:',
+    options: ['Argumento circular vicioso', 'A interdependência entre compreensão do todo e das partes de um texto', 'Método de decifração de cifras', 'Princípio da retórica clássica'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 45,
+    text: '"Qualia" refere-se a:',
+    options: ['Propriedades quantitativas dos fenómenos', 'As qualidades subjetivas da experiência consciente', 'Atributos mensuráveis da matéria', 'A lógica das qualidades formais'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
+    text: 'Teorema de Bayes: P(A|B) =',
+    options: ['P(B|A)·P(A)', 'P(B|A)·P(A)/P(B)', 'P(A)·P(B)', 'P(A∩B)/P(A)'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 55,
+    text: 'A sequência de Catalan: 1, 1, 2, 5, 14, 42... Qual é o 7.º termo?',
+    options: ['90', '120', '132', '165'], correct: 2 },
+  { category: 'Raciocínio Espacial', difficulty: 2, timeLimit: 45,
+    text: 'Na topologia, um toro (donut) tem genus:',
+    options: ['0', '1', '2', '3'], correct: 1 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 55,
+    text: 'Qual destas superfícies é não-orientável?',
+    options: ['Esfera', 'Toro', 'Faixa de Möbius', 'Cilindro'], correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
+    text: '"Overfitting" em aprendizagem automática é:',
+    options: ['Erro alto em treino e teste', 'Boa generalização', 'Memoriza treino mas falha em novos dados', 'Modelo com poucos parâmetros'], correct: 2 },
+  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 50,
+    text: 'O teste t de Student compara:',
+    options: ['Variâncias de mais de 2 grupos', 'Médias de duas amostras', 'Correlações entre variáveis', 'Distribuições categóricas'], correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 55,
+    text: 'Na teoria da complexidade, NP contém problemas:',
+    options: ['Resolvíveis em tempo polinomial', 'Cuja solução pode ser verificada em tempo polinomial', 'Intratáveis sem exceção', 'Equivalentes ao Travelling Salesman'], correct: 1 },
+  { category: 'Raciocínio Abstrato', difficulty: 2, timeLimit: 40,
+    text: 'Qual é a imagem especular da letra "d" num eixo vertical?',
+    options: ['b', 'p', 'q', 'd'], correct: 0 },
+  { category: 'Aptidão Verbal', difficulty: 2, timeLimit: 35,
+    text: '"Episteme" distingue-se de "doxa" porque:',
+    options: ['Uma é oral, outra escrita', 'Uma é conhecimento fundamentado, outra é mera opinião', 'Uma é coletiva, outra individual', 'Uma é moderna, outra clássica'], correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 2, timeLimit: 40,
+    text: 'O paradoxo de Russell refere-se a:',
+    options: ['Impossibilidade de dividir por zero', 'O conjunto de todos os conjuntos que não se contêm a si próprios', 'A aritmética ser incompleta', 'O problema da paragem'], correct: 1 },
+  { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 50,
+    text: 'Num tabuleiro de xadrez 8×8, quantos quadrados (de qualquer tamanho) existem no total?',
+    options: ['64', '128', '204', '216'], correct: 2 },
 ];
 
-// NÍVEL: Doutoramento
 const Q_DOUTORAMENTO = [
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
     text: 'O teorema de Löwenheim-Skolem implica que:',
-    options: ['Toda teoria consistente tem um modelo finito', 'Uma teoria com modelo infinito tem modelos de qualquer cardinalidade infinita', 'Não existem modelos não-padrão da aritmética', 'A lógica de 2ª ordem é completa'],
-    correct: 1 },
+    options: ['Toda teoria consistente tem modelo finito', 'Uma teoria com modelo infinito tem modelos de qualquer cardinalidade infinita', 'Não existem modelos não-padrão', 'A lógica de 2ª ordem é completa'], correct: 1 },
   { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
-    text: 'O "problema da paragem" (halting problem) de Turing é:',
-    options: ['Decidível em tempo polinomial', 'Semidecidível mas não decidível', 'Completamente indecidível (nem semidecidível)', 'Decidível apenas para máquinas determinísticas'],
-    correct: 1 },
-  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 65,
-    text: 'Na teoria da prova, o sistema de dedução natural de Gentzen caracteriza-se por:',
-    options: ['Usar apenas modus ponens', 'Introduzir e eliminar conectivos logicamente', 'Trabalhar exclusivamente com sequentes', 'Basear-se em axiomas em vez de regras de inferência'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 60,
-    text: 'A hipótese de Riemann afirma que todos os zeros não-triviais da função zeta de Riemann têm parte real igual a:',
-    options: ['0', '1', '1/2', '1/4'],
-    correct: 2 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
-    text: 'Qual é a dimensão de Hausdorff do conjunto de Cantor?',
-    options: ['0', 'log(2)/log(3)', '1/2', '1'],
-    correct: 1 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
-    text: 'O teorema de Noether (Emmy Noether, 1915) estabelece uma correspondência entre:',
-    options: ['Simetrias contínuas e leis de conservação', 'Grupos de Lie e álgebras de Lie', 'Equações diferenciais e grupos de simetria discreta', 'Transformadas de Fourier e grupos abelianos'],
-    correct: 0 },
+    text: 'O "problema da paragem" de Turing é:',
+    options: ['Decidível em tempo polinomial', 'Semidecidível mas não decidível', 'Completamente indecidível', 'Decidível só para máquinas determinísticas'], correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
+    text: 'O teorema de Arrow (impossibilidade) afirma que:',
+    options: ['Não existe sistema de votação perfeito que satisfaça todos os critérios razoáveis', 'A votação maioritária é sempre transitiva', 'Preferências individuais racionais geram coletivas racionais', 'Sistemas de pontuação são superiores'], correct: 0 },
   { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 60,
     text: 'A função geradora da sequência de Fibonacci é:',
-    options: ['1/(1-x-x²)', 'x/(1-x-x²)', '1/(1+x+x²)', '1/(1-x²)'],
-    correct: 1 },
+    options: ['1/(1-x-x²)', 'x/(1-x-x²)', '1/(1+x+x²)', '1/(1-x²)'], correct: 1 },
   { category: 'Padrões & Sequências', difficulty: 3, timeLimit: 60,
-    text: 'Qual das seguintes é uma consequência do axioma da escolha?',
-    options: ['O teorema de Cantor-Bernstein', 'O paradoxo de Banach-Tarski', 'O teorema de Gödel', 'O teorema de compacidade'],
-    correct: 1 },
+    text: 'Qual é uma consequência do axioma da escolha?',
+    options: ['Teorema de Cantor-Bernstein', 'Paradoxo de Banach-Tarski', 'Teorema de Gödel', 'Teorema de compacidade'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 50,
     text: 'Na fenomenologia husserliana, "intencionalidade" significa:',
-    options: ['Intenção deliberada de agir', 'A consciência é sempre consciência de algo', 'A vontade precede a cognição', 'O sujeito cria a realidade'],
-    correct: 1 },
+    options: ['Intenção deliberada de agir', 'A consciência é sempre consciência de algo', 'A vontade precede a cognição', 'O sujeito cria a realidade'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 55,
     text: 'O "argumento da linguagem privada" de Wittgenstein conclui que:',
-    options: ['É possível criar uma linguagem totalmente privada', 'Uma linguagem genuinamente privada é ininteligível', 'A linguagem é inata', 'Os conceitos mentais são independentes da linguagem'],
-    correct: 1 },
+    options: ['É possível criar linguagem totalmente privada', 'Uma linguagem genuinamente privada é ininteligível', 'A linguagem é inata', 'Os conceitos mentais são independentes da linguagem'], correct: 1 },
   { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 55,
-    text: 'Na teoria dos jogos, um "equilíbrio de Nash" ocorre quando:',
-    options: ['Todos os jogadores cooperam', 'Nenhum jogador tem incentivo para mudar a estratégia unilateralmente', 'O resultado é Pareto-ótimo', 'Existe dominância estrita'],
-    correct: 1 },
+    text: 'A "subdeterminação das teorias pelos dados" (Quine-Duhem) implica que:',
+    options: ['Os dados determinam univocamente a teoria correta', 'Múltiplas teorias incompatíveis podem ser igualmente consistentes com as mesmas evidências', 'A experiência é sempre teórica', 'Os dados são independentes de qualquer teoria'], correct: 1 },
+  { category: 'Aptidão Verbal', difficulty: 3, timeLimit: 55,
+    text: 'O conceito de "paradigma" de Kuhn designa:',
+    options: ['Um método experimental', 'Uma teoria geral aceite que governa a ciência normal', 'Uma falácia lógica', 'Um tipo de generalização empírica'], correct: 1 },
   { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 65,
-    text: 'O teorema de Yoneda na teoria das categorias afirma que:',
-    options: ['Todo funtor tem um adjunto', 'Um objeto é determinado (a menos de isomorfismo) pelos morfismos que nele chegam', 'Categorias pequenas têm limites', 'Funtores naturais são sempre equivalências'],
-    correct: 1 },
+    text: 'O teorema de Yoneda afirma que:',
+    options: ['Todo funtor tem adjunto', 'Um objeto é determinado pelos morfismos que nele chegam', 'Categorias pequenas têm limites', 'Funtores naturais são sempre equivalências'], correct: 1 },
   { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 65,
     text: 'A "hipótese do contínuo" de Cantor afirma que:',
-    options: ['Não existem infinitos de tamanhos diferentes', 'Não há conjunto cuja cardinalidade esteja estritamente entre ℵ₀ e 2^ℵ₀', 'O contínuo real é enumerável', 'Todo conjunto infinito é equipotente a ℕ'],
-    correct: 1 },
-  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 55,
-    text: 'O teste de Kolmogorov-Smirnov é usado para:',
-    options: ['Comparar médias de dois grupos', 'Verificar se uma amostra segue uma distribuição específica', 'Medir correlação entre variáveis', 'Detetar outliers'],
-    correct: 1 },
-  { category: 'Atenção & Memória', difficulty: 3, timeLimit: 60,
+    options: ['Não existem infinitos de tamanhos diferentes', 'Não há conjunto com cardinalidade estritamente entre ℵ₀ e 2^ℵ₀', 'O contínuo real é enumerável', 'Todo conjunto infinito é equipotente a ℕ'], correct: 1 },
+  { category: 'Teoria dos Jogos', difficulty: 3, timeLimit: 55,
+    text: 'Um "equilíbrio de Nash" ocorre quando:',
+    options: ['Todos cooperam', 'Nenhum jogador tem incentivo para mudar a estratégia unilateralmente', 'O resultado é Pareto-ótimo', 'Existe dominância estrita'], correct: 1 },
+  { category: 'Teoria dos Jogos', difficulty: 3, timeLimit: 60,
     text: 'O "dilema do prisioneiro" iterado demonstra que:',
-    options: ['A defecção mútua é sempre optimal', 'A cooperação pode emergir de estratégias como Tit-for-Tat', 'Jogadores racionais cooperam sempre', 'O equilíbrio de Nash é Pareto-ótimo'],
-    correct: 1 },
+    options: ['Defecção mútua é sempre ótima', 'Cooperação pode emergir via estratégias como Tit-for-Tat', 'Jogadores racionais cooperam sempre', 'O equilíbrio de Nash é Pareto-ótimo'], correct: 1 },
   { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 60,
-    text: 'O invariante de Euler (V - E + F) para poliedros convexos é sempre:',
-    options: ['0', '1', '2', '3'],
-    correct: 2 },
+    text: 'O invariante de Euler (V−E+F) para poliedros convexos é sempre:',
+    options: ['0', '1', '2', '3'], correct: 2 },
   { category: 'Raciocínio Espacial', difficulty: 3, timeLimit: 65,
     text: 'Na geometria de Riemann, a soma dos ângulos internos de um triângulo é:',
-    options: ['Exatamente 180°', 'Sempre menor que 180°', 'Sempre maior que 180°', 'Independente da curvatura'],
-    correct: 2 },
-  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 60,
-    text: 'O que afirma o teorema de Arrow (impossibilidade)?',
-    options: ['Não existe sistema de votação perfeito que satisfaça todos os critérios razoáveis simultaneamente', 'A votação maioritária é sempre transitiva', 'Preferências individuais racionais geram preferências coletivas racionais', 'Sistemas de pontuação são superiores a sistemas de votação'],
-    correct: 0 },
-  { category: 'Raciocínio Numérico', difficulty: 3, timeLimit: 65,
-    text: 'Qual é a identidade de Euler?',
-    options: ['e^iπ = 1', 'e^iπ + 1 = 0', 'e^π = -1', 'i² = 1'],
-    correct: 1 },
+    options: ['Exatamente 180°', 'Sempre < 180°', 'Sempre > 180°', 'Independente da curvatura'], correct: 2 },
+  { category: 'Raciocínio Científico', difficulty: 3, timeLimit: 55,
+    text: 'O teste de Kolmogorov-Smirnov serve para:',
+    options: ['Comparar médias de 2 grupos', 'Verificar se amostra segue distribuição específica', 'Medir correlação', 'Detetar outliers'], correct: 1 },
+  { category: 'Raciocínio Científico', difficulty: 3, timeLimit: 55,
+    text: 'O falsificacionismo de Popper distingue ciência de pseudociência pelo critério de:',
+    options: ['Verificabilidade', 'Refutabilidade empírica', 'Consenso dos pares', 'Aplicabilidade prática'], correct: 1 },
+  { category: 'Raciocínio Lógico', difficulty: 3, timeLimit: 65,
+    text: 'A classe de complexidade NP contém os problemas:',
+    options: ['Resolvíveis em tempo polinomial', 'Cuja solução pode ser verificada em tempo polinomial', 'Resolvíveis só em tempo exponencial', 'Equivalentes ao TSP'], correct: 1 },
   { category: 'Raciocínio Abstrato', difficulty: 3, timeLimit: 60,
-    text: 'Em teoria da informação (Shannon), a entropia H(X) = -Σ p(x) log p(x) mede:',
-    options: ['A energia de um sinal', 'A incerteza ou informação média de uma variável aleatória', 'A compressão máxima de um ficheiro', 'A correlação entre variáveis'],
-    correct: 1 },
+    text: 'A entropia de Shannon H(X) = -Σ p(x) log p(x) mede:',
+    options: ['A energia de um sinal', 'A incerteza/informação média de uma variável aleatória', 'A compressão máxima de um ficheiro', 'A correlação entre variáveis'], correct: 1 },
+  { category: 'Epistemologia', difficulty: 3, timeLimit: 55,
+    text: 'O realismo científico afirma que:',
+    options: ['As entidades teóricas não existem realmente', 'As teorias são meras ferramentas preditivas', 'As melhores teorias descrevem aproximadamente a realidade', 'A ciência é socialmente construída'], correct: 2 },
 ];
 
-// IQ scale params per education level
-// baseline: average student at this level scores ~IQ 100
-// The scale maps ratio 0-1 to IQ range
 const IQ_SCALE = {
-  'Ensino Básico':     { min: 60, range: 85 },   // 60-145
-  'Ensino Secundário': { min: 65, range: 80 },   // 65-145
-  'Licenciatura':      { min: 70, range: 75 },   // 70-145
-  'Mestrado':          { min: 75, range: 70 },   // 75-145
-  'Doutoramento':      { min: 80, range: 65 },   // 80-145
+  'Ensino Básico':     { min: 60, range: 85 },
+  'Ensino Secundário': { min: 65, range: 80 },
+  'Licenciatura':      { min: 70, range: 75 },
+  'Mestrado':          { min: 75, range: 70 },
+  'Doutoramento':      { min: 80, range: 65 },
 };
 
 function getQuestionsForLevel(esc) {
@@ -1222,17 +889,13 @@ function getQuestionsForLevel(esc) {
   }
 }
 
-// ══════════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════════
+// ── NAVIGATION ────────────────────────────────────
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-// ══════════════════════════════════════════════════
-// ROLE SELECTION
-// ══════════════════════════════════════════════════
+// ── LOGIN ─────────────────────────────────────────
 function selectRole(role) {
   currentRole = role;
   document.getElementById('role-visitor').classList.toggle('selected', role === 'visitor');
@@ -1244,8 +907,7 @@ function handleLogin() {
   const err = document.getElementById('login-error');
   err.style.display = 'none';
   if (currentRole === 'analyst') {
-    const key = document.getElementById('analyst-key').value.trim();
-    if (key !== ANALYST_KEY) {
+    if (document.getElementById('analyst-key').value.trim() !== ANALYST_KEY) {
       err.textContent = 'Chave inválida. Tente novamente.';
       err.style.display = 'block';
       return;
@@ -1257,20 +919,20 @@ function handleLogin() {
   }
 }
 
-// ══════════════════════════════════════════════════
-// TEST START
-// ══════════════════════════════════════════════════
+// ── START TEST (FIX 3: nome e apelido opcionais) ──
 function startTest() {
-  const nome = document.getElementById('p-nome').value.trim();
-  const apelido = document.getElementById('p-apelido').value.trim();
-  const idade = document.getElementById('p-idade').value.trim();
-  const genero = document.getElementById('p-genero').value;
-  const esc = document.getElementById('p-escolaridade').value;
-  const err = document.getElementById('info-error');
+  // nome e apelido são opcionais — preenchemos com "Anónimo" se em branco
+  const nome    = document.getElementById('p-nome').value.trim()    || 'Anónimo';
+  const apelido = document.getElementById('p-apelido').value.trim() || '';
+  const idade   = document.getElementById('p-idade').value.trim();
+  const genero  = document.getElementById('p-genero').value;
+  const esc     = document.getElementById('p-escolaridade').value;
+  const err     = document.getElementById('info-error');
   err.style.display = 'none';
 
-  if (!nome || !apelido || !idade || !genero || !esc) {
-    err.textContent = 'Por favor, preencha todos os campos.';
+  // Só idade, género e escolaridade são obrigatórios
+  if (!idade || !genero || !esc) {
+    err.textContent = 'Por favor, preencha a Idade, o Género e a Escolaridade.';
     err.style.display = 'block';
     return;
   }
@@ -1280,31 +942,30 @@ function startTest() {
     return;
   }
 
-  participant = { nome, apelido, idade: parseInt(idade), genero, escolaridade: esc };
+  participant   = { nome, apelido, idade: parseInt(idade), genero, escolaridade: esc };
   activeQuestions = getQuestionsForLevel(esc);
-  answers = [];
-  currentQ = 0;
-  totalTime = 0;
+  answers       = [];
+  currentQ      = 0;
+  totalTime     = 0;
+  selectedOption = null;
   showPage('page-test');
   loadQuestion();
 }
 
-// ══════════════════════════════════════════════════
-// QUESTION LOGIC
-// ══════════════════════════════════════════════════
+// ── QUESTION ENGINE ───────────────────────────────
 function loadQuestion() {
   if (currentQ >= activeQuestions.length) { finishTest(); return; }
   selectedOption = null;
   const q = activeQuestions[currentQ];
   const total = activeQuestions.length;
-  const progress = (currentQ / total) * 100;
 
-  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('progress-fill').style.width = (currentQ / total * 100) + '%';
   document.getElementById('q-counter').textContent = 'Pergunta ' + (currentQ + 1) + ' de ' + total;
-  document.getElementById('q-section').textContent = q.category;
+  document.getElementById('q-section').textContent  = q.category;
   document.getElementById('q-category').textContent = q.category;
-  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-text').textContent     = q.text;
   document.getElementById('answered-hint').textContent = '';
+  document.getElementById('next-btn').disabled = true;
 
   const letters = ['A', 'B', 'C', 'D'];
   const container = document.getElementById('options-container');
@@ -1312,32 +973,29 @@ function loadQuestion() {
   q.options.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option';
-    btn.dataset.idx = i;
-    btn.innerHTML = '<span class="option-letter">' + letters[i] + '</span>' + opt;
+    // FIX 2: span separado para texto (necessário para z-index do ::before)
+    btn.innerHTML = '<span class="option-letter">' + letters[i] + '</span>'
+                  + '<span class="option-text">' + opt + '</span>';
     btn.onclick = () => toggleAnswer(i, btn);
     container.appendChild(btn);
   });
 
-  document.getElementById('next-btn').disabled = true;
   startTimer(q.timeLimit);
   startTime = Date.now();
 }
 
-// TOGGLE: selecionar / deselecionar opção
 function toggleAnswer(idx, btn) {
   if (selectedOption === idx) {
-    // Deselect
     selectedOption = null;
     btn.classList.remove('selected');
     document.getElementById('next-btn').disabled = true;
     document.getElementById('answered-hint').textContent = '';
   } else {
-    // Select new
     selectedOption = idx;
     document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     document.getElementById('next-btn').disabled = false;
-    document.getElementById('answered-hint').textContent = '✓ Resposta selecionada — pode clicar novamente para deselecionar';
+    document.getElementById('answered-hint').textContent = '✓ Resposta selecionada — clique novamente para deselecionar';
   }
 }
 
@@ -1352,9 +1010,7 @@ function nextQuestion() {
   loadQuestion();
 }
 
-// ══════════════════════════════════════════════════
-// TIMER
-// ══════════════════════════════════════════════════
+// ── TIMER ─────────────────────────────────────────
 function startTimer(seconds) {
   clearInterval(timer);
   timeLeft = seconds;
@@ -1365,307 +1021,252 @@ function startTimer(seconds) {
     timeLeft--;
     updateTimerDisplay(timeLeft, seconds);
     if (timeLeft <= 8) ring.classList.add('timer-warn');
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      handleTimeout();
-    }
+    if (timeLeft <= 0) { clearInterval(timer); handleTimeout(); }
   }, 1000);
 }
 
 function updateTimerDisplay(left, total) {
   document.getElementById('timer-display').textContent = left;
-  const offset = CIRCUMFERENCE * (1 - left / total);
-  document.getElementById('timer-circle').style.strokeDashoffset = offset;
+  document.getElementById('timer-circle').style.strokeDashoffset = CIRCUMFERENCE * (1 - left / total);
 }
 
 function handleTimeout() {
-  const elapsed = activeQuestions[currentQ].timeLimit;
-  totalTime += elapsed;
-  answers.push({ questionIdx: currentQ, selected: -1, correct: activeQuestions[currentQ].correct, time: elapsed });
+  const q = activeQuestions[currentQ];
+  totalTime += q.timeLimit;
+  answers.push({ questionIdx: currentQ, selected: -1, correct: q.correct, time: q.timeLimit });
   currentQ++;
   showPage('page-timeout');
 }
 
-function timeoutNext() {
-  showPage('page-test');
-  loadQuestion();
-}
+function timeoutNext() { showPage('page-test'); loadQuestion(); }
 
-// ══════════════════════════════════════════════════
-// SCORING — adaptado ao nível de escolaridade
-// ══════════════════════════════════════════════════
+// ── SCORING ───────────────────────────────────────
 function calcScore() {
-  let raw = 0;
-  let maxRaw = 0;
-  const catScores = {};
-  const catMax = {};
-
+  let raw = 0, maxRaw = 0;
+  const catScores = {}, catMax = {};
   answers.forEach(a => {
     const q = activeQuestions[a.questionIdx];
     if (!q) return;
     const pts = q.difficulty;
     maxRaw += pts;
     catMax[q.category] = (catMax[q.category] || 0) + pts;
-    if (!catScores[q.category]) catScores[q.category] = 0;
+    catScores[q.category] = catScores[q.category] || 0;
     if (a.selected === a.correct) {
       const speedBonus = Math.max(0, 1 - a.time / (q.timeLimit * 1.5));
       raw += pts + speedBonus * 0.3;
       catScores[q.category] += pts;
     }
   });
-
   const ratio = maxRaw > 0 ? raw / maxRaw : 0;
   const scale = IQ_SCALE[participant.escolaridade] || IQ_SCALE['Ensino Básico'];
   const iq = Math.round(scale.min + ratio * scale.range);
   const correct = answers.filter(a => a.selected === a.correct).length;
   const avgTime = answers.length > 0 ? totalTime / answers.length : 0;
-
   return { iq, correct, total: activeQuestions.length, avgTime, catScores, catMax };
 }
 
 function iqCategory(iq) {
-  if (iq >= 130) return { label: 'Muito Superior (Superdotado)', emoji: '🌟', badge: 'badge-genius', desc: 'Capacidade intelectual excecional. O raciocínio abstrato e a resolução de problemas estão muito acima da média populacional.' };
-  if (iq >= 120) return { label: 'Superior', emoji: '⭐', badge: 'badge-superior', desc: 'Capacidade intelectual acima da média. Facilidade notável em aprendizagem e resolução de problemas complexos.' };
-  if (iq >= 110) return { label: 'Médio-Alto', emoji: '🔶', badge: 'badge-medio-alto', desc: 'Ligeiramente acima da média. Bom desempenho em tarefas que exigem raciocínio e análise.' };
-  if (iq >= 90)  return { label: 'Médio', emoji: '🟡', badge: 'badge-medio', desc: 'Capacidade intelectual na média da população. Perfil cognitivo equilibrado e funcional.' };
-  if (iq >= 80)  return { label: 'Médio-Baixo', emoji: '🟠', badge: 'badge-medio-baixo', desc: 'Ligeiramente abaixo da média. Pode beneficiar de estratégias de estudo estruturadas.' };
-  return { label: 'Abaixo da Média', emoji: '🔴', badge: 'badge-baixo', desc: 'Abaixo da média. Recomenda-se avaliação clínica profissional para um diagnóstico mais preciso.' };
+  if (iq >= 130) return { label: 'Muito Superior (Superdotado)', emoji: '🌟', badge: 'badge-genius',     desc: 'Capacidade intelectual excecional. O raciocínio abstrato e a resolução de problemas estão muito acima da média populacional.' };
+  if (iq >= 120) return { label: 'Superior',                    emoji: '⭐', badge: 'badge-superior',    desc: 'Capacidade intelectual acima da média. Facilidade notável em aprendizagem e resolução de problemas complexos.' };
+  if (iq >= 110) return { label: 'Médio-Alto',                  emoji: '🔶', badge: 'badge-medio-alto',  desc: 'Ligeiramente acima da média. Bom desempenho em tarefas que exigem raciocínio e análise.' };
+  if (iq >= 90)  return { label: 'Médio',                       emoji: '🟡', badge: 'badge-medio',       desc: 'Capacidade intelectual na média da população. Perfil cognitivo equilibrado e funcional.' };
+  if (iq >= 80)  return { label: 'Médio-Baixo',                 emoji: '🟠', badge: 'badge-medio-baixo', desc: 'Ligeiramente abaixo da média. Pode beneficiar de estratégias de estudo estruturadas.' };
+  return               { label: 'Abaixo da Média',              emoji: '🔴', badge: 'badge-baixo',       desc: 'Abaixo da média. Recomenda-se avaliação clínica profissional para um diagnóstico mais preciso.' };
 }
 
-// ══════════════════════════════════════════════════
-// FINISH TEST
-// ══════════════════════════════════════════════════
+// ── FINISH TEST ───────────────────────────────────
 async function finishTest() {
   clearInterval(timer);
   const { iq, correct, total, avgTime, catScores, catMax } = calcScore();
   const cat = iqCategory(iq);
 
-  // Save to Supabase
-  const record = {
-    nome: participant.nome,
-    apelido: participant.apelido,
-    idade: participant.idade,
-    genero: participant.genero,
-    escolaridade: participant.escolaridade,
-    iq,
-    categoria: cat.label,
-    acertos: correct,
-    total,
-    tempo_medio: parseFloat(avgTime.toFixed(2)),
-    cat_scores: catScores,
-    cat_max: catMax
-  };
   try {
     await sbFetch('resultados', {
-      method: 'POST',
-      prefer: 'return=minimal',
-      body: JSON.stringify(record)
+      method: 'POST', prefer: 'return=minimal',
+      body: JSON.stringify({
+        nome: participant.nome, apelido: participant.apelido,
+        idade: participant.idade, genero: participant.genero,
+        escolaridade: participant.escolaridade,
+        iq, categoria: cat.label, acertos: correct, total,
+        tempo_medio: parseFloat(avgTime.toFixed(2)),
+        cat_scores: catScores, cat_max: catMax
+      })
     });
-  } catch(e) {
-    console.error('Erro ao guardar no Supabase:', e);
-    // Show warning but continue to result page
-  }
+  } catch(e) { console.error('Supabase save error:', e); }
 
-  // Show result page
   document.getElementById('result-iq-display').textContent = iq;
-  document.getElementById('result-emoji').textContent = cat.emoji;
-  document.getElementById('result-cat').textContent = cat.label;
-  document.getElementById('result-desc').textContent = cat.desc;
-  document.getElementById('r-correct').textContent = correct;
-  document.getElementById('r-total').textContent = total;
-  document.getElementById('r-time').textContent = avgTime.toFixed(1) + 's';
+  document.getElementById('result-emoji').textContent      = cat.emoji;
+  document.getElementById('result-cat').textContent        = cat.label;
+  document.getElementById('result-desc').textContent       = cat.desc;
+  document.getElementById('r-correct').textContent         = correct;
+  document.getElementById('r-total').textContent           = total;
+  document.getElementById('r-time').textContent            = avgTime.toFixed(1) + 's';
 
-  // Category breakdown bars
   const breakdown = document.getElementById('category-breakdown');
   breakdown.innerHTML = '';
   Object.keys(catMax).forEach(catName => {
-    const score = catScores[catName] || 0;
-    const max = catMax[catName];
-    const pct = Math.round((score / max) * 100);
-    breakdown.innerHTML += '<div>' +
-      '<div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.2rem;">' +
-        '<span style="color:var(--brown); font-weight:600;">' + catName + '</span>' +
-        '<span style="color:var(--text-muted);">' + pct + '%</span>' +
-      '</div>' +
-      '<div class="progress-wrap" style="margin:0;">' +
-        '<div class="progress-fill" style="width:' + pct + '%;"></div>' +
-      '</div>' +
-    '</div>';
+    const pct = Math.round(((catScores[catName] || 0) / catMax[catName]) * 100);
+    breakdown.innerHTML += '<div>'
+      + '<div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.2rem;">'
+      +   '<span style="color:var(--brown);font-weight:600;">' + catName + '</span>'
+      +   '<span style="color:var(--text-muted);">' + pct + '%</span>'
+      + '</div>'
+      + '<div class="progress-wrap" style="margin:0;">'
+      +   '<div class="progress-fill" style="width:' + pct + '%;"></div>'
+      + '</div></div>';
   });
 
   showPage('page-result');
 }
 
-// ══════════════════════════════════════════════════
-// ANALYST DASHBOARD
-// ══════════════════════════════════════════════════
+// ── DASHBOARD ─────────────────────────────────────
 async function renderDashboard() {
   const tbody = document.getElementById('records-tbody');
   tbody.innerHTML = '<tr><td colspan="11" class="no-data">A carregar dados...</td></tr>';
-
   try {
     records = await sbFetch('resultados?select=*&order=created_at.desc');
     if (!records) records = [];
   } catch(e) {
-    console.error('Erro ao carregar registos:', e);
-    tbody.innerHTML = '<tr><td colspan="11" class="no-data" style="color:var(--danger);">Erro ao ligar ao Supabase: ' + e.message + '</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="11" class="no-data" style="color:var(--danger);">Erro Supabase: ' + e.message + '</td></tr>';
     records = [];
   }
   renderTable();
 }
 
 function renderTable() {
-  const tbody = document.getElementById('records-tbody');
+  const tbody  = document.getElementById('records-tbody');
   const search = (document.getElementById('search-input')?.value || '').toLowerCase();
-  const sort = document.getElementById('sort-select')?.value || 'date-desc';
+  const sort   = document.getElementById('sort-select')?.value || 'date-desc';
 
   let filtered = records.filter(r =>
     (r.nome || '').toLowerCase().includes(search) ||
     (r.apelido || '').toLowerCase().includes(search) ||
     String(r.idade).includes(search)
   );
-
   filtered.sort((a, b) => {
     if (sort === 'iq-desc') return b.iq - a.iq;
-    if (sort === 'iq-asc') return a.iq - b.iq;
-    if (sort === 'name') return (a.nome || '').localeCompare(b.nome || '');
+    if (sort === 'iq-asc')  return a.iq - b.iq;
+    if (sort === 'name')    return (a.nome || '').localeCompare(b.nome || '');
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  // Stats
   const total = records.length;
   const avg = total ? Math.round(records.reduce((s, r) => s + r.iq, 0) / total) : null;
   const max = total ? Math.max(...records.map(r => r.iq)) : null;
   const min = total ? Math.min(...records.map(r => r.iq)) : null;
   document.getElementById('ds-total').textContent = total;
-  document.getElementById('ds-avg').textContent = avg ?? '—';
-  document.getElementById('ds-max').textContent = max ?? '—';
-  document.getElementById('ds-min').textContent = min ?? '—';
+  document.getElementById('ds-avg').textContent   = avg ?? '—';
+  document.getElementById('ds-max').textContent   = max ?? '—';
+  document.getElementById('ds-min').textContent   = min ?? '—';
 
-  if (filtered.length === 0) {
+  window._filteredRecords = filtered;
+
+  if (!filtered.length) {
     tbody.innerHTML = '<tr><td colspan="11" class="no-data">Sem registos.</td></tr>';
   } else {
     tbody.innerHTML = filtered.map((r, i) => {
       const cat = iqCategory(r.iq);
-      const d = new Date(r.created_at);
-      const dateStr = d.toLocaleDateString('pt-PT') + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
-      const rJson = JSON.stringify(r).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-      return '<tr>' +
-        '<td style="color:var(--text-muted);">' + (i+1) + '</td>' +
-        '<td style="font-weight:600;">' + r.nome + '</td>' +
-        '<td>' + r.apelido + '</td>' +
-        '<td>' + r.idade + '</td>' +
-        '<td>' + r.genero + '</td>' +
-        '<td style="font-size:0.8rem;">' + r.escolaridade + '</td>' +
-        '<td style="font-family:\'Playfair Display\',serif; font-size:1.2rem; font-weight:700; color:var(--amber);">' + r.iq + '</td>' +
-        '<td><span class="badge ' + cat.badge + '">' + cat.label + '</span></td>' +
-        '<td>' + r.acertos + '/' + r.total + '</td>' +
-        '<td style="font-size:0.78rem; color:var(--text-muted);">' + dateStr + '</td>' +
-        '<td><button class="btn btn-ghost btn-sm" onclick="openModal(' + i + ')">Ver</button></td>' +
-      '</tr>';
+      const d   = new Date(r.created_at);
+      const ds  = d.toLocaleDateString('pt-PT') + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+      return '<tr>'
+        + '<td style="color:var(--text-muted);">' + (i+1) + '</td>'
+        + '<td style="font-weight:600;">' + (r.nome || 'Anónimo') + '</td>'
+        + '<td>' + (r.apelido || '—') + '</td>'
+        + '<td>' + r.idade + '</td>'
+        + '<td>' + r.genero + '</td>'
+        + '<td style="font-size:0.8rem;">' + r.escolaridade + '</td>'
+        + '<td style="font-family:\'Playfair Display\',serif;font-size:1.2rem;font-weight:700;color:var(--amber);">' + r.iq + '</td>'
+        + '<td><span class="badge ' + cat.badge + '">' + cat.label + '</span></td>'
+        + '<td>' + r.acertos + '/' + r.total + '</td>'
+        + '<td style="font-size:0.78rem;color:var(--text-muted);">' + ds + '</td>'
+        + '<td><button class="btn btn-ghost btn-sm" onclick="openModal(' + i + ')">Ver</button></td>'
+        + '</tr>';
     }).join('');
   }
-
   renderDistChart();
-  // store filtered for modal access
-  window._filteredRecords = filtered;
 }
 
 function renderDistChart() {
   const ranges = [
-    { label: '<80', min: 0, max: 79 },
-    { label: '80–89', min: 80, max: 89 },
-    { label: '90–109', min: 90, max: 109 },
-    { label: '110–119', min: 110, max: 119 },
-    { label: '120–129', min: 120, max: 129 },
-    { label: '≥130', min: 130, max: 999 }
+    { label: '<80',    min: 0,   max: 79  },
+    { label: '80–89', min: 80,  max: 89  },
+    { label: '90–109',min: 90,  max: 109 },
+    { label: '110–119',min:110, max: 119 },
+    { label: '120–129',min:120, max: 129 },
+    { label: '≥130',  min: 130, max: 999 }
   ];
   const counts = ranges.map(r => records.filter(rec => rec.iq >= r.min && rec.iq <= r.max).length);
-  const maxC = Math.max(...counts, 1);
-  const chart = document.getElementById('dist-chart');
-  const labels = document.getElementById('dist-labels');
-  chart.innerHTML = counts.map(c => {
+  const maxC   = Math.max(...counts, 1);
+  document.getElementById('dist-chart').innerHTML = counts.map(c => {
     const h = Math.round((c / maxC) * 100);
-    return '<div class="chart-bar-wrap">' +
-      '<div style="font-size:0.72rem; color:var(--text-muted); align-self:center;">' + c + '</div>' +
-      '<div class="chart-bar" style="height:' + h + 'px;"></div>' +
-    '</div>';
+    return '<div class="chart-bar-wrap">'
+      + '<div style="font-size:0.72rem;color:var(--text-muted);align-self:center;">' + c + '</div>'
+      + '<div class="chart-bar" style="height:' + h + 'px;"></div>'
+      + '</div>';
   }).join('');
-  labels.innerHTML = ranges.map(r =>
-    '<div style="flex:1; text-align:center; font-size:0.65rem; color:var(--text-muted);">' + r.label + '</div>'
+  document.getElementById('dist-labels').innerHTML = ranges.map(r =>
+    '<div style="flex:1;text-align:center;font-size:0.65rem;color:var(--text-muted);">' + r.label + '</div>'
   ).join('');
 }
 
-// ══════════════════════════════════════════════════
-// MODAL
-// ══════════════════════════════════════════════════
+// ── MODAL ─────────────────────────────────────────
 function openModal(idx) {
   const r = (window._filteredRecords || records)[idx];
   if (!r) return;
   const cat = iqCategory(r.iq);
-  document.getElementById('modal-name').textContent = r.nome + ' ' + r.apelido;
-
-  const catScores = r.cat_scores || {};
-  const catMax = r.cat_max || {};
-  const breakdown = Object.keys(catMax).map(c => {
-    const s = catScores[c] || 0;
-    const pct = Math.round((s / (catMax[c] || 1)) * 100);
-    return '<div style="margin-bottom:0.4rem;">' +
-      '<div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:0.15rem;">' +
-        '<span style="color:var(--brown); font-weight:600;">' + c + '</span>' +
-        '<span style="color:var(--text-muted);">' + pct + '%</span>' +
-      '</div>' +
-      '<div class="progress-wrap" style="margin:0; height:6px;"><div class="progress-fill" style="width:' + pct + '%;"></div></div>' +
-    '</div>';
+  document.getElementById('modal-name').textContent = (r.nome || 'Anónimo') + ' ' + (r.apelido || '');
+  const catScores = r.cat_scores || {}, catMax = r.cat_max || {};
+  const bd = Object.keys(catMax).map(c => {
+    const pct = Math.round(((catScores[c] || 0) / (catMax[c] || 1)) * 100);
+    return '<div style="margin-bottom:0.4rem;">'
+      + '<div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.15rem;">'
+      +   '<span style="color:var(--brown);font-weight:600;">' + c + '</span>'
+      +   '<span style="color:var(--text-muted);">' + pct + '%</span>'
+      + '</div>'
+      + '<div class="progress-wrap" style="margin:0;height:6px;">'
+      +   '<div class="progress-fill" style="width:' + pct + '%;"></div>'
+      + '</div></div>';
   }).join('');
 
   document.getElementById('modal-body').innerHTML =
-    '<div style="background:var(--amber-pale); border-radius:12px; padding:1rem; text-align:center; margin-bottom:1rem;">' +
-      '<div style="font-family:\'Playfair Display\',serif; font-size:3rem; font-weight:900; color:var(--amber);">' + r.iq + '</div>' +
-      '<div><span class="badge ' + cat.badge + '">' + cat.label + '</span></div>' +
-    '</div>' +
-    '<div class="detail-row"><span class="detail-key">Nome:</span><span class="detail-val">' + r.nome + ' ' + r.apelido + '</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Idade:</span><span class="detail-val">' + r.idade + ' anos</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Género:</span><span class="detail-val">' + r.genero + '</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Escolaridade:</span><span class="detail-val">' + r.escolaridade + '</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">' + r.acertos + '/' + r.total + '</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">' + (r.tempo_medio || 0).toFixed(1) + 's / pergunta</span></div>' +
-    '<div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">' + new Date(r.created_at).toLocaleString('pt-PT') + '</span></div>' +
-    '<div class="divider"></div>' +
-    '<div style="font-size:0.78rem; font-weight:600; color:var(--brown); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">Desempenho por área</div>' +
-    breakdown;
+    '<div style="background:var(--amber-pale);border-radius:12px;padding:1rem;text-align:center;margin-bottom:1rem;">'
+    + '<div style="font-family:\'Playfair Display\',serif;font-size:3rem;font-weight:900;color:var(--amber);">' + r.iq + '</div>'
+    + '<span class="badge ' + cat.badge + '">' + cat.label + '</span>'
+    + '</div>'
+    + '<div class="detail-row"><span class="detail-key">Nome:</span><span class="detail-val">' + (r.nome || 'Anónimo') + ' ' + (r.apelido || '') + '</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Idade:</span><span class="detail-val">' + r.idade + ' anos</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Género:</span><span class="detail-val">' + r.genero + '</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Escolaridade:</span><span class="detail-val">' + r.escolaridade + '</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Acertos:</span><span class="detail-val">' + r.acertos + '/' + r.total + '</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Tempo médio:</span><span class="detail-val">' + (r.tempo_medio || 0).toFixed(1) + 's / pergunta</span></div>'
+    + '<div class="detail-row"><span class="detail-key">Data:</span><span class="detail-val">' + new Date(r.created_at).toLocaleString('pt-PT') + '</span></div>'
+    + '<div class="divider"></div>'
+    + '<div style="font-size:0.78rem;font-weight:600;color:var(--brown);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;">Desempenho por área</div>'
+    + bd;
 
   document.getElementById('modal-detail').classList.add('open');
 }
 
-function closeModal() {
-  document.getElementById('modal-detail').classList.remove('open');
-}
+function closeModal() { document.getElementById('modal-detail').classList.remove('open'); }
 
-// ══════════════════════════════════════════════════
-// EXPORT CSV
-// ══════════════════════════════════════════════════
+// ── EXPORT CSV ────────────────────────────────────
 function exportCSV() {
-  if (records.length === 0) { alert('Sem registos para exportar.'); return; }
+  if (!records.length) { alert('Sem registos para exportar.'); return; }
   const headers = ['ID','Nome','Apelido','Idade','Género','Escolaridade','QI','Classificação','Acertos','Total','Tempo Médio (s)','Data'];
   const rows = records.map(r => [
-    r.id, r.nome, r.apelido, r.idade, r.genero, r.escolaridade,
+    r.id, r.nome || 'Anónimo', r.apelido || '', r.idade, r.genero, r.escolaridade,
     r.iq, r.categoria, r.acertos, r.total,
     (r.tempo_medio || 0).toFixed(2), new Date(r.created_at).toLocaleString('pt-PT')
   ]);
-  const csv = [headers, ...rows].map(r => r.join(';')).join('\n');
+  const csv  = [headers, ...rows].map(r => r.join(';')).join('\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'cogniq_resultados.csv';
-  a.click(); URL.revokeObjectURL(url);
+  const a    = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'cogniq_resultados.csv'; a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-function confirmLogout() {
-  if (confirm('Tem a certeza que quer sair?')) showPage('page-home');
-}
+function confirmLogout() { if (confirm('Tem a certeza que quer sair?')) showPage('page-home'); }
 
-// Close modal on overlay click
 document.getElementById('modal-detail').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
