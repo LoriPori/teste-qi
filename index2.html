@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lourenço Fonseca — Autor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F8F7F4;
+      --text:    #1A1A1A;
+      --muted:   #6B6B6B;
+      --rule:    #D8D5CE;
+      --ink:     #1D3D5C;
+      --ink-lt:  #E8EFF5;
+    }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--rule);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+
+    .site-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+    }
+
+    nav { display: flex; }
+
+    nav button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.45rem 0;
+      margin-left: 2.2rem;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    nav button::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--ink);
+      transition: width 0.25s ease;
+    }
+
+    nav button:hover { color: var(--text); }
+    nav button:hover::after { width: 100%; }
+    nav button.active { color: var(--ink); }
+    nav button.active::after { width: 100%; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 800px;
+      margin: 6rem auto 0;
+      padding: 0 2rem;
+      position: relative;
+      overflow: visible;
+    }
+
+    /* decorative large quote in background */
+    .hero-quote-bg {
+      position: absolute;
+      top: -2rem;
+      right: 0;
+      font-family: 'EB Garamond', serif;
+      font-size: 22rem;
+      line-height: 1;
+      color: var(--rule);
+      opacity: 0.3;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    /* ── TAGLINE ANIMATION AREA ── */
+    .tagline-wrap {
+      position: relative;
+      overflow: visible;
+      height: 80px;
+      margin-bottom: 2rem;
+    }
+
+    #tagline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-style: italic;
+      color: var(--ink);
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      clip-path: inset(0 100% 0 0);
+    }
+
+    #pen-write {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 62px;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hero-lead {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.85;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      background: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .hero-cta:hover { background: var(--ink); color: var(--bg); }
+
+    /* ── SECTION COMMON ── */
+    .section-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 5rem 2rem 8rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--ink), transparent);
+      max-width: 120px;
+    }
+
+    /* ── OBRAS ── */
+    .book {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .book:last-child { border-bottom: 1px solid var(--rule); }
+
+    .book-meta { font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted); padding-top: 0.2rem; line-height: 1.8; }
+
+    .book-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+
+    .book-subtitle { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+    .book-desc { font-size: 0.91rem; color: var(--muted); line-height: 1.8; max-width: 480px; }
+
+    .tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.66rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.65rem;
+      border-radius: 2px;
+    }
+
+    .tag-available { border: 1px solid var(--ink); color: var(--ink); }
+    .tag-soon { border: 1px solid var(--rule); color: var(--muted); }
+
+    /* ── COGNIQ ── */
+    .cogniq-intro { font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.85; margin-bottom: 3.5rem; }
+
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3.5rem; }
+
+    .stat { border: 1px solid var(--rule); padding: 1.8rem 1.5rem; position: relative; overflow: hidden; }
+
+    .stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: var(--ink);
+    }
+
+    .stat-number { font-family: 'EB Garamond', serif; font-size: 2.6rem; line-height: 1; color: var(--ink); margin-bottom: 0.4rem; }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    .cogniq-note { font-size: 0.88rem; color: var(--muted); border-left: 2px solid var(--ink); padding-left: 1.2rem; line-height: 1.8; max-width: 520px; }
+
+    /* ── SOBRE ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+
+    /* pen decoration in about section */
+    .about-pen-deco {
+      width: 120px;
+      opacity: 0.18;
+      transform: rotate(135deg);
+      margin-bottom: 2rem;
+      filter: grayscale(1);
+    }
+
+    .about-text { font-size: 0.94rem; color: var(--muted); line-height: 1.85; }
+    .about-text p + p { margin-top: 1.2rem; }
+    .about-text em { font-family: 'EB Garamond', serif; font-size: 1.05em; font-style: italic; }
+
+    .about-aside { border-left: 1px solid var(--rule); padding-left: 2rem; }
+    .aside-label { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+
+    .aside-item { font-family: 'EB Garamond', serif; font-size: 1.05rem; padding: 0.55rem 0; border-bottom: 1px solid var(--rule); color: var(--text); }
+    .aside-item:last-child { border-bottom: none; }
+
+    /* ── CONTACTO ── */
+    .contact-lead { font-size: 1rem; color: var(--muted); max-width: 460px; line-height: 1.85; margin-bottom: 3rem; }
+
+    .contact-item { display: flex; align-items: baseline; gap: 1.5rem; padding: 1.4rem 0; border-top: 1px solid var(--rule); }
+    .contact-item:last-child { border-bottom: 1px solid var(--rule); }
+
+    .contact-type { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); min-width: 90px; }
+    .contact-value { font-family: 'EB Garamond', serif; font-size: 1.15rem; color: var(--text); }
+
+    .contact-note { margin-top: 3rem; font-size: 0.82rem; color: var(--muted); border-left: 2px solid var(--ink); padding-left: 1.2rem; max-width: 420px; line-height: 1.75; font-style: italic; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--rule); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: 'EB Garamond', serif; font-size: 0.95rem; color: var(--muted); }
+    .footer-copy { font-size: 0.7rem; color: var(--rule); letter-spacing: 0.06em; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      header { padding: 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+      nav button { margin-left: 1rem; }
+      nav button:first-child { margin-left: 0; }
+      .hero { margin-top: 3rem; }
+      .hero h1 { font-size: 2.8rem; }
+      .hero-quote-bg { font-size: 12rem; }
+      .book { grid-template-columns: 1fr; gap: 0.5rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-aside { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 2rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      #tagline { clip-path: none !important; }
+      #pen-write { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="site-name">Lourenço Fonseca</span>
+  <nav>
+    <button class="active" onclick="showPage('inicio', this)">Início</button>
+    <button onclick="showPage('obras', this)">Obras</button>
+    <button onclick="showPage('cogniq', this)">CognIQ</button>
+    <button onclick="showPage('sobre', this)">Sobre</button>
+    <button onclick="showPage('contacto', this)">Contacto</button>
+  </nav>
+</header>
+
+<!-- ══ INÍCIO ══ -->
+<div id="page-inicio" class="page active">
+  <div class="hero">
+    <div class="hero-quote-bg">«</div>
+    <div class="hero-content">
+      <p class="eyebrow">Lisboa, Portugal — Autor</p>
+      <h1>Lourenço<br>Fonseca</h1>
+
+      <div class="tagline-wrap">
+        <div id="tagline">Pensar é subversivo.</div>
+        <img id="pen-write"
+             src="data:image/png;base64,PEN_B64_PLACEHOLDER"
+             alt="">
+      </div>
+
+      <p class="hero-lead">
+        Escrevo sobre controlo, memória e o que perdemos quando deixamos de pensar por nós próprios. Em ficção e em não-ficção.
+      </p>
+      <button class="hero-cta" onclick="showPage('obras', document.querySelectorAll('nav button')[1])">
+        Ver obras
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ OBRAS ══ -->
+<div id="page-obras" class="page">
+  <div class="section-wrap">
+    <p class="section-label">Obras</p>
+
+    <div class="book">
+      <div class="book-meta">2026<br>Ensaio<br>Não-ficção</div>
+      <div>
+        <div class="book-title">A (Des)evolução do Ser</div>
+        <div class="book-subtitle">Observações sobre o abandono do conhecimento</div>
+        <p class="book-desc">Uma reflexão apoiada em estudos científicos e sociológicos sobre o declínio cognitivo das gerações mais recentes, o papel da Internet e das redes sociais, e o que acontece quando a adaptação é confundida com inteligência.</p>
+        <span class="tag tag-available">Disponível agora</span>
+      </div>
+    </div>
+
+    <div class="book">
+      <div class="book-meta">Em breve<br>Romance<br>Distopia</div>
+      <div>
+        <div class="book-title">A Falha</div>
+        <div class="book-subtitle">Romance distópico</div>
+        <p class="book-desc">Num futuro próximo em que o sistema decide o que é lembrado e o que desaparece, três personagens descobrem que a memória pode ser a única forma de resistência que resta. Cada dia que passa, parece menos ficção.</p>
+        <span class="tag tag-soon">Em desenvolvimento</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COGNIQ ══ -->
+<div id="page-cogniq" class="page">
+  <div class="section-wrap">
+    <p class="section-label">CognIQ — Estudo</p>
+    <p class="cogniq-intro">
+      O CognIQ é uma plataforma de avaliação cognitiva concebida e desenvolvida de forma independente, com o propósito de estudar tendências de raciocínio abstracto nas gerações mais recentes. Os resultados informam directamente as conclusões de <em>A (Des)evolução do Ser</em>.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-number">33</div>
+        <div class="stat-label">Questões por teste</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Categorias cognitivas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">QI</div>
+        <div class="stat-label">Métrica principal</div>
+      </div>
+    </div>
+
+    <p class="cogniq-note">
+      O estudo centra-se em raciocínio abstracto, lógica, analogias, padrões espaciais e raciocínio verbal — deliberadamente afastado da matemática académica tradicional. A metodologia e os dados recolhidos são apresentados no capítulo VI da obra.
+    </p>
+  </div>
+</div>
+
+<!-- ══ SOBRE ══ -->
+<div id="page-sobre" class="page">
+  <div class="section-wrap">
+    <p class="section-label">Sobre o Autor</p>
+    <div class="about-grid">
+      <div>
+        <img class="about-pen-deco"
+             src="data:image/png;base64,PEN_B64_PLACEHOLDER"
+             alt="">
+        <div class="about-text">
+          <p>Lourenço Fonseca é autor de ficção e não-ficção, movido por uma convicção pouco comum no seu tempo: que ainda vale a pena pensar com profundidade numa época que recompensa exactamente o contrário.</p>
+          <p><em>A (Des)evolução do Ser</em> foi desenvolvido em paralelo com o CognIQ — uma plataforma de avaliação cognitiva que concebeu e construiu de forma independente, com o propósito de estudar tendências de raciocínio abstracto nas gerações mais recentes.</p>
+          <p>Tem um interesse pronunciado por matemática e lógica formal, o que se reflecte tanto na estrutura das suas obras como na metodologia com que aborda os temas que investiga. É também fã assumido de metal progressivo — em particular dos TOOL e dos System of a Down —, géneros que exigem do ouvinte exactamente o que os seus livros defendem: atenção, paciência e capacidade de lidar com complexidade.</p>
+        </div>
+      </div>
+      <div class="about-aside">
+        <p class="aside-label">Interesses</p>
+        <div class="aside-item">Matemática &amp; lógica formal</div>
+        <div class="aside-item">Metal progressivo</div>
+        <div class="aside-item">TOOL</div>
+        <div class="aside-item">System of a Down</div>
+        <div class="aside-item">Ficção distópica</div>
+        <div class="aside-item">Ciências cognitivas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACTO ══ -->
+<div id="page-contacto" class="page">
+  <div class="section-wrap">
+    <p class="section-label">Contacto</p>
+    <p class="contact-lead">
+      Para questões editoriais, imprensa ou colaborações, o contacto é feito exclusivamente por correio electrónico.
+    </p>
+
+    <div class="contact-item">
+      <span class="contact-type">E-mail</span>
+      <span class="contact-value">adicionar@email.aqui</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-type">Editora</span>
+      <span class="contact-value">A preencher</span>
+    </div>
+
+    <p class="contact-note">
+      Não estou presente em redes sociais — uma posição que, dado o tema da minha primeira obra, não deverá surpreender ninguém.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Lourenço Fonseca</span>
+  <span class="footer-copy">© 2026</span>
+</footer>
+
+<script>
+  /* ── TAB SWITCHING ── */
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    if (id === 'inicio') setTimeout(runPenAnim, 200);
+  }
+
+  /* ── PEN WRITE ANIMATION ── */
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  }
+
+  function runPenAnim() {
+    const tagline  = document.getElementById('tagline');
+    const pen      = document.getElementById('pen-write');
+    const wrap     = tagline.parentElement;
+
+    // Reset
+    tagline.style.clipPath = 'inset(0 100% 0 0)';
+    pen.style.opacity      = '1';
+    pen.style.transform    = 'translateY(-50%) translateX(-300px)';
+
+    // Measure text width (after it's rendered, even if clipped)
+    const textW  = tagline.scrollWidth;
+    const penW   = pen.offsetWidth || 230;
+    const DURATION = 2600;
+    let startTs  = null;
+
+    function step(ts) {
+      if (!startTs) startTs = ts;
+      const progress = Math.min((ts - startTs) / DURATION, 1);
+      const eased    = easeInOutCubic(progress);
+
+      // Tip moves from 0 → textW
+      const tipX   = eased * textW;
+      const penX   = tipX - penW;       // left edge of pen image
+      pen.style.transform = `translateY(-50%) translateX(${penX}px)`;
+
+      // Reveal text left → right
+      const hiddenPct = (1 - eased) * 100;
+      tagline.style.clipPath = `inset(0 ${hiddenPct}% 0 0)`;
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // Fade pen out
+        pen.style.transition = 'opacity 0.4s';
+        pen.style.opacity    = '0';
+        tagline.style.clipPath = 'none';
+        setTimeout(() => { pen.style.transition = ''; }, 500);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* Start on load */
+  window.addEventListener('load', () => setTimeout(runPenAnim, 400));
+</script>
+</body>
+</html>
